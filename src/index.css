@@ -1,4 +1,6 @@
-body{
+html, body{
   margin: 0;
   height: 0;
+  background-color: #ECEFF1;
+  font-family: Roboto, sans-seri;
 }

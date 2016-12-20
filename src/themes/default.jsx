@@ -1,5 +1,5 @@
 import {
-  blueGrey50, blueGrey500, blueGrey700,
+  blueGrey500, blueGrey700,
   blue500, blue800,
   pink500,
   grey300, grey400
@@ -14,8 +14,7 @@ const DefaultTheme = {
         accent1Color: blue500,
         accent2Color: blue800,
         accent3Color: pink500,
-        borderColor: grey300,
-        canvasColor: blueGrey50
+        borderColor: grey300
     },
 };
 
