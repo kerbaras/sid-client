@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import Paper from 'material-ui/Paper';
 import {List, ListItem} from 'material-ui/List';
 import DashboardIcon from 'material-ui/svg-icons/action/dashboard';
@@ -15,14 +16,14 @@ const SideMenu = () => (
         <Paper zDepth={1}>
             <user style={{ backgroundImage: 'url("https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-10.jpg")' }} />
             <List>
-                <ListItem primaryText="Dashboard" leftIcon={<DashboardIcon />} />
-                <ListItem primaryText="Usuarios" leftIcon={<UsersIcon />} />
-                <ListItem primaryText="Sustancias" leftIcon={<WarningIcon />} />
-                <ListItem primaryText="Drogueros" leftIcon={<ContentInbox />} />
-                <ListItem primaryText="Proveedores" leftIcon={<ShoppingCart />} />
-                <ListItem primaryText="Unidades Ejecutoras" leftIcon={<ActionGrade />} />
-                <ListItem primaryText="Eventos" leftIcon={<EventIcon />} />
-                <ListItem primaryText="Imagenes GHS" leftIcon={<PhotoIcon />} />
+                <Link to="/"><ListItem primaryText="Dashboard" leftIcon={<DashboardIcon />} path="/" /></Link>
+                <Link to="/usuarios"><ListItem primaryText="Usuarios" leftIcon={<UsersIcon />} path="/usuarios" /></Link>
+                <Link to="/sustancias"><ListItem primaryText="Sustancias" leftIcon={<WarningIcon />} path="/sustancias" /></Link>
+                <Link to="/"><ListItem primaryText="Drogueros" leftIcon={<ContentInbox />} path="/" /></Link>
+                <Link to="/"><ListItem primaryText="Proveedores" leftIcon={<ShoppingCart />} path="/" /></Link>
+                <Link to="/"><ListItem primaryText="Unidades Ejecutoras" leftIcon={<ActionGrade />} path="/" /></Link>
+                <Link to="/"><ListItem primaryText="Eventos" leftIcon={<EventIcon />} path="/" /></Link>
+                <Link to="/"><ListItem primaryText="Imagenes GHS" leftIcon={<PhotoIcon />} path="/" /></Link>
             </List>
         </Paper>
     </side-menu>

@@ -1,16 +1,26 @@
-users {
+page {
     display: flex;
     flex-direction: column;
 }
 
-users header {
+page header {
     display: block;
     margin: -16px -16px 16px -16px;
 }
 
-users content {
+page content {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+page .addButton {
+    bottom: 0;
+    margin-bottom: 24px;
+    margin-right: 12px;
+    position: fixed;
+    right: 0;
+    z-index: 1000;
 }

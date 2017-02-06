@@ -3,7 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import SideMenu from './SideMenu';
-import Users from './Users'
 import defaultTheme from '../themes/default';
 import './App.css';
 
@@ -28,7 +27,7 @@ class App extends React.Component {
                 />
                 <SideMenu />
                 <div className="page-content">
-                    <Users /> 
+                    {this.props.children} 
                 </div>
             </app>
         </MuiThemeProvider>
