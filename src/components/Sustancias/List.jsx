@@ -1,16 +1,14 @@
 import React from 'react';
-import { Card,  CardText } from 'material-ui/Card';
-import { List, ListItem } from 'material-ui/List';
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconEdit from 'material-ui/svg-icons/content/create';
 import IconDelete from 'material-ui/svg-icons/action/delete';
-import IconCheck from 'material-ui/svg-icons/navigation/check';
-import NewDialog from '../Users/NewDialog';
+import RadioCheck from 'material-ui/svg-icons/toggle/radio-button-checked';
+import { NewDialog } from '../Dialogs';
+import NewForm from './NewForm';
+import SustanciasTable from './Table';
 
 const MoreMenu = ({ sustancia }) => (
     <IconMenu
@@ -22,48 +20,34 @@ const MoreMenu = ({ sustancia }) => (
 );
 
 const tools = ( sustancia ) => [
- <IconButton key="edit"><IconEdit /></IconButton> ,
- <MoreMenu key="more" sustancia={sustancia} />
+    <RadioCheck color="(sustancia.sedronar) ? blue : grey" />,
+    <RadioCheck color="(sustancia.renar) ? green : grey" />,
+    <IconButton key="edit"><IconEdit /></IconButton> ,
+    <MoreMenu key="more" sustancia={sustancia} />
 ];
-
-const tableEntry = (sustancia) => (
-    <TableRow key={sustancia.id}>
-        <TableRowColumn>{sustancia.name}</TableRowColumn>
-        <TableRowColumn>{sustancia.status}</TableRowColumn>
-        <TableRowColumn style={{ textAlign:'right' }}>{tools(sustancia)}</TableRowColumn>
-    </TableRow>
-);
 
 const sustancia = (id, formula, name, cas, sedronar, renar) => ({id, formula, name, cas, sedronar, renar});
 let sustancias = [
-    sustancia(1, "Matias Pierobon", "Administrador"),
-    sustancia(2, "John Doe", "Responsable"),
-    sustancia(3, "Chelsea Otakan", "Responsable"),
-    sustancia(4, "Eric Hoffman", "Usuario"),
-    sustancia(5, "James Anderson", "Usuario"),
-    sustancia(6, "Kerem Suer", "Usuario"),
-    sustancia(7, "Matias Pierobon", "Administrador"),
-    sustancia(8, "John Doe", "Responsable"),
-    sustancia(9, "Chelsea Otakan", "Responsable"),
-    sustancia(10, "Eric Hoffman", "Usuario"),
-    sustancia(11, "James Anderson", "Usuario"),
-    sustancia(12, "Kerem Suer", "Usuario")
-]
+    sustancia(1, "Ac_2O_3", "actinium(III) oxide", "12002-61-8", true, false),
+    sustancia(2, "AgAlCl_4", "silver tetrachloroaluminate", "27039-77-6", false, false),
+    sustancia(3, "AgBr", "silver bromide", "7785-23-1", true, true),
+    sustancia(4, "AgBrO_3", "silver bromate", "7783-89-3", false, true),
+    sustancia(5, "AgCN", "silver cyanide", "506-64-9", true, true),
+    sustancia(6, "AgC_2H_3O_2", "silver acetate", "563-63-3", true, false),
+    sustancia(7, "AgCl", "silver chloride", "7783-90-6", false, false),
+    sustancia(8, "AgClO_3", "silver chlorate", "7783-92-8", false, true),
+    sustancia(9, "AgClO_4", "silver perchlorate", "7783-93-9", true, false),
+    sustancia(10,"AgF", "silver fluoride", "7775-41-9" , true, true),
+    sustancia(11,"AgF_2", "silver difluoride", "7783-95-1" , false, true),
+    sustancia(12,"AgI",	"silver iodide", "7783-96-2" , false, false)
+];
 
-const constructBody = () => sustancias.map(sustancia => tableEntry(sustancia));
-
-const SustanciasTable = () => (
-            <Card style={{ marginRight: '24px', minWidth: '445px', flex:'2 0'}}>
-                <CardText>
-                    <Table multiSelectable={true}>
-                        <TableBody>
-                        { constructBody() }
-                        </TableBody>
-                    </Table>
-                </CardText>
-            </Card>
+const AddButton = () => (
+    <NewDialog title="Agregar Sustancia">
+        <NewForm />
+    </NewDialog>
 );
 
-const SustanciasList = () => [<SustanciasTable key="table" />, <NewDialog key="new" />];
+const SustanciasList = () => [<SustanciasTable sustancias={sustancias} tools={tools} key="table" />, <AddButton key="new" />];
 
 export default SustanciasList;

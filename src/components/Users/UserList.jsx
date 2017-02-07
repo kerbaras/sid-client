@@ -10,7 +10,8 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconEdit from 'material-ui/svg-icons/content/create';
 import IconDelete from 'material-ui/svg-icons/action/delete';
 import IconCheck from 'material-ui/svg-icons/navigation/check';
-import NewDialog from './NewDialog';
+import { NewDialog } from '../Dialogs';
+import NewForm from './NewForm';
 
 const Panel = () => (
     <Card style={{ margin: '0 16px 16px 0', flex: '1 2 0' }}>
@@ -81,6 +82,12 @@ const UserTable = () => (
             </Card>
 );
 
-const UserList = () => [<Panel key="panel"/>, <UserTable key="table" />, <NewDialog key="new" />];
+const AddButton = () => (
+    <NewDialog title="Crear Usuario">
+        <NewForm />
+    </NewDialog>
+);
+
+const UserList = () => [<Panel key="panel"/>, <UserTable key="table" />, <AddButton key="new" />];
 
 export default UserList;

@@ -2,9 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 import { grey200 } from 'material-ui/styles/colors';
-import NewForm from './NewForm';
 
 const styles = {
     dialog: {
@@ -14,13 +12,14 @@ const styles = {
     }
 };
 
-const NewButton = ({onTouchTap}) => (
+const Button = ({icon, onTouchTap, secondary, primary}) => (
     <FloatingActionButton
-        secondary={true}
+        secondary={secondary}
+        primary={primary}
         className="addButton"
         onTouchTap={onTouchTap}
     >
-      <ContentAdd />
+      { icon }
     </FloatingActionButton>
 );
 
@@ -52,9 +51,9 @@ export default class NewDialog extends React.Component {
     ];
     return (
       <div>
-        <NewButton onTouchTap={this.handleOpen} />
+        <Button primary={this.props.primary} secondary={this.props.secondary} icon={ this.props.icon } onTouchTap={this.handleOpen} />
         <Dialog
-          title="Crear Usuario"
+          title={this.props.title}
           titleStyle={styles.dialog.title}
           actions={actions}
           modal={false}
@@ -62,7 +61,7 @@ export default class NewDialog extends React.Component {
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
         >
-          <NewForm />
+          { this.props.children }
         </Dialog>
       </div>
     );

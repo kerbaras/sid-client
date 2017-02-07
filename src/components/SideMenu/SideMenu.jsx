@@ -16,14 +16,14 @@ const SideMenu = () => (
         <Paper zDepth={1}>
             <user style={{ backgroundImage: 'url("https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-10.jpg")' }} />
             <List>
-                <Link to="/"><ListItem primaryText="Dashboard" leftIcon={<DashboardIcon />} path="/" /></Link>
-                <Link to="/usuarios"><ListItem primaryText="Usuarios" leftIcon={<UsersIcon />} path="/usuarios" /></Link>
-                <Link to="/sustancias"><ListItem primaryText="Sustancias" leftIcon={<WarningIcon />} path="/sustancias" /></Link>
-                <Link to="/"><ListItem primaryText="Drogueros" leftIcon={<ContentInbox />} path="/" /></Link>
-                <Link to="/"><ListItem primaryText="Proveedores" leftIcon={<ShoppingCart />} path="/" /></Link>
-                <Link to="/"><ListItem primaryText="Unidades Ejecutoras" leftIcon={<ActionGrade />} path="/" /></Link>
-                <Link to="/"><ListItem primaryText="Eventos" leftIcon={<EventIcon />} path="/" /></Link>
-                <Link to="/"><ListItem primaryText="Imagenes GHS" leftIcon={<PhotoIcon />} path="/" /></Link>
+                <Link to="/"><ListItem primaryText="Dashboard" leftIcon={<DashboardIcon />} /></Link>
+                <Link to="/usuarios"><ListItem primaryText="Usuarios" leftIcon={<UsersIcon />} /></Link>
+                <Link to="/sustancias"><ListItem primaryText="Sustancias" leftIcon={<WarningIcon />} /></Link>
+                <Link to="/drogueros"><ListItem primaryText="Drogueros" leftIcon={<ContentInbox />} /></Link>
+                <Link to="/"><ListItem primaryText="Proveedores" leftIcon={<ShoppingCart />} /></Link>
+                <Link to="/"><ListItem primaryText="Unidades Ejecutoras" leftIcon={<ActionGrade />} /></Link>
+                <Link to="/"><ListItem primaryText="Eventos" leftIcon={<EventIcon />} /></Link>
+                <Link to="/"><ListItem primaryText="Imagenes GHS" leftIcon={<PhotoIcon />} /></Link>
             </List>
         </Paper>
     </side-menu>
