@@ -3,14 +3,8 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from '../App';
 import Sustancias from '../Sustancias';
 import Users from '../Users';
-import Drogueros, { droguerosList, Droguero } from '../Drogueros';
+import Drogueros, { DroguerosList, Droguero } from '../Drogueros';
 import NotFound from '../NotFound';
-
-const DroguerosList = () => (
-    <div>
-        {droguerosList()}
-    </div>
-); 
 
 const MyRouter = () => (
     <Router history={hashHistory}>
@@ -19,7 +13,7 @@ const MyRouter = () => (
             <Route path="sustancias" component={Sustancias}/>
             <Route path="usuarios" component={Users} />
             <Route path="drogueros" component={Drogueros} >
-                <IndexRoute component={DroguerosList} />
+                <IndexRoute components={DroguerosList} />
                 <Route path=":drogueroId" component={Droguero} />
             </Route>
             <Route path="*" component={NotFound} />

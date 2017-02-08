@@ -1,10 +1,13 @@
 import React from 'react';
 import { Card,  CardText } from 'material-ui/Card';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import { Context as MjContext, Node as MjNode} from 'react-mathjax';
 
 const tableEntry = (sustancia, tools) => (
     <TableRow key={sustancia.id}>
-        <TableRowColumn>{sustancia.formula}</TableRowColumn>
+        <TableRowColumn>
+            <MjContext><MjNode inline>{sustancia.formula}</MjNode></MjContext>
+        </TableRowColumn>
         <TableRowColumn>{sustancia.name}</TableRowColumn>
         <TableRowColumn>{sustancia.cas}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(sustancia)}</TableRowColumn>

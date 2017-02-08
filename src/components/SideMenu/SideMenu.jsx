@@ -10,11 +10,12 @@ import EventIcon from 'material-ui/svg-icons/action/event';
 import UsersIcon from 'material-ui/svg-icons/social/group';
 import PhotoIcon from 'material-ui/svg-icons/image/photo-library';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
+import UserCard from './User';
 import './SideMenu.css';
 const SideMenu = () => (
     <side-menu>
         <Paper zDepth={1}>
-            <user style={{ backgroundImage: 'url("https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-10.jpg")' }} />
+            <UserCard />
             <List>
                 <Link to="/"><ListItem primaryText="Dashboard" leftIcon={<DashboardIcon />} /></Link>
                 <Link to="/usuarios"><ListItem primaryText="Usuarios" leftIcon={<UsersIcon />} /></Link>

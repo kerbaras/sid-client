@@ -1,7 +1,7 @@
 import Drogueros from './Drogueros';
-import droguerosList from './List';
+import DroguerosList from './List';
 import Droguero from './Show';
 
-export { droguerosList, Droguero }
+export { DroguerosList, Droguero }
 
 export default Drogueros;

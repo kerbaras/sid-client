@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
@@ -16,29 +17,31 @@ const droguero = (id, unidadEjecutora, responsable, numero, imagen) => (
         imagen
     }
 );
+const user = (name, status, image) => ({name, status, image});
+
 let drogueros = [
-    droguero(1, "Laboratorio1", "John Doe", "12002-61-8"),
-    droguero(2, "Introducción a la Química", "Chelsea Otakan", "27039-77-6", "http://www.material-ui.com/images/nature-600-337.jpg"),
-    droguero(3, "Grupo de José", "Chelsea Otakan", "7785-23-1"),
-    droguero(4, "Laboratorio LIDI", "Matías Pierobon", "7783-89-3")
+    droguero(1, "Laboratorio1", user("John Doe", "Responsable"), "1202-6"),
+    droguero(2, "Introducción a la Química", user("Chelsea Otakan", "Responsable", "http://www.material-ui.com/images/jsa-128.jpg"), "2739-7", "http://www.material-ui.com/images/nature-600-337.jpg"),
+    droguero(3, "Grupo de José", user("Chelsea Otakan", "Responsable"), "7785-2"),
+    droguero(4, "Laboratorio LIDI", user("Matías Pierobon", "Administrador"), "7783-8")
 ];
 
-const makeImage = image => image ? <CardMedia expandable={true}><img src={image} alt="" /></CardMedia> : null
+const makeImage = image => image ? <CardMedia expandable={true}><img src={image} alt="" /></CardMedia> : null;
+const makeAvatar = image => image || <Avatar icon={<AccountIcon  />} />;
 
 const cardEntry = (droguero) => (
-    <Card style={{ margin:'8px', maxWidth:'400px' }}>
+    <Card key={droguero.id} style={{ margin:'8px', maxWidth:'400px' }}>
     <CardHeader
-      title={ droguero.responsable }
-      subtitle="Responsable"
-      avatar={<Avatar icon={<AccountIcon  />} />}
+      title={ droguero.responsable.name }
+      subtitle={ droguero.responsable.status }
+      avatar={ makeAvatar(droguero.responsable.image) }
       actAsExpander={Boolean(droguero.imagen)}
       showExpandableButton={Boolean(droguero.imagen)}
     />
     { makeImage(droguero.imagen) }
     <CardTitle title={"Droguero " + droguero.numero} subtitle={droguero.unidadEjecutora}/>
     <CardActions>
-      <FlatButton label="Ver" />
-      <FlatButton label="Action2" />
+      <Link to={"/drogueros/" + droguero.id}><FlatButton label="Ver" /></Link>
     </CardActions>
   </Card>
 );
@@ -59,4 +62,10 @@ const AddButton = () => (
 
 const droguerosList = () => [<Lista key="table" />, <AddButton key="new" />];
 
-export default droguerosList;
+const DroguerosList = ({ params }) => (
+    <drogueros style={{ width: '100%' }}>
+        { droguerosList() }
+    </drogueros>
+);
+
+export default DroguerosList;

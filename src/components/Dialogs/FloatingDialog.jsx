@@ -12,10 +12,9 @@ const styles = {
     }
 };
 
-const Button = ({icon, onTouchTap, secondary, primary}) => (
+const Button = ({icon, onTouchTap, secondary}) => (
     <FloatingActionButton
         secondary={secondary}
-        primary={primary}
         className="addButton"
         onTouchTap={onTouchTap}
     >
@@ -51,7 +50,7 @@ export default class NewDialog extends React.Component {
     ];
     return (
       <div>
-        <Button primary={this.props.primary} secondary={this.props.secondary} icon={ this.props.icon } onTouchTap={this.handleOpen} />
+        <Button secondary={this.props.secondary} icon={ this.props.icon } onTouchTap={this.handleOpen} />
         <Dialog
           title={this.props.title}
           titleStyle={styles.dialog.title}
