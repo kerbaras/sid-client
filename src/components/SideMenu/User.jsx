@@ -4,20 +4,19 @@ import IconButton from 'material-ui/IconButton';
 import AccountIcon from 'material-ui/svg-icons/social/person';
 import ArrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import ArrowUpIcon from 'material-ui/svg-icons/navigation/arrow-drop-up';
-import { Row } from '../Utilis';
 
 const UserCard = () => (
     <user-card style={{ backgroundImage: 'url("https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-10.jpg")' }} >
-        <Avatar icon={<AccountIcon  />} />
-        <Row>
+        <Avatar className="photo" src="//lh3.googleusercontent.com/-_mHhaRP_Vrg/AAAAAAAAAAI/AAAAAAAAAAA/ADPlhfL_83s2YQsavoh2O1FjYaNN7t5ioQ/s96-c-mo/photo.jpg" size={64}/>
+        <user-row>
             <user-info>
                 <user-name>Matías Pierobón</user-name>
                 <user-role>Administrador</user-role>
             </user-info>
             <IconButton tooltip="SVG Icon">
-                <ArrowDownIcon />
+                <ArrowDownIcon color="#eee" />
             </IconButton>
-        </Row>
+        </user-row>
     </user-card>
 );
 
