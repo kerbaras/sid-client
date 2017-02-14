@@ -21,7 +21,7 @@ class App extends React.Component {
             <app className={[this.state.expand ? "expand" : null]}>
                 <AppBar
                     onLeftIconButtonTouchTap={this.handleExpand}
-                    title="DroguiSoft"
+                    title="Titulo"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     style={{ position: 'fixed' }}
                 />
