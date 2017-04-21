@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { SustanciasTable } from '../Sustancias';
 import { Row } from '../Utilis';
 
+
 const sustancia = (id, formula, name, cas, sedronar, renar) => ({id, formula, name, cas, sedronar, renar});
 let sustancias = [
     sustancia(1, "Ac_2O_3", "actinium(III) oxide", "12002-61-8", true, false),

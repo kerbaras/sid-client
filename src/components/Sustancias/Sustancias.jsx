@@ -1,6 +1,6 @@
 import React from 'react';
 import MainPage from '../MainPage';
-import list from './List';
+import SustanciasList from './List';
 import db from '../../libs/db.js'
 
 const cleanSustancia = {
@@ -16,25 +16,25 @@ class Sustancias extends React.Component {
         super(props)
         this.state={
             sustancias: {},
-            newSustancia:{
-                formula:"",
-                nombre:"",
-                cas:"",
-                densidad: "",
-                tipoMedida:""
-            }
+            formula:"",
+            nombre:"",
+            cas:"",
+            densidad: "",
+            tipoMedida:""
         }
 
     }
 
     submitSustancia = () =>{
-        db.child('sustancias').push(this.state.newSustancia, () => this.setState({ newSustancia: cleanSustancia }))
+        let {formula, nombre, cas, densidad, tipoMedida} = this.state
+        let newSustancia = {formula, nombre, densidad, tipoMedida}
+        db.child('sustancias').push(newSustancia)
     }
 
     handleChange = property => event => {
-        let nextState = { ...this.state.newSustancia };
+        let nextState = { ...this.state };
         nextState[property] = event.target.value;
-        this.setState({newSustancia: nextState});
+        this.setState(nextState);
     }
 
     componentDidMount(){
@@ -43,7 +43,11 @@ class Sustancias extends React.Component {
 
     render = () => (
     <MainPage title="Sustancias">
-        { list(this.state.sustancias, this.state.newSustancia, this.submitSustancia, this.handleChange) }
+        <SustanciasList
+            sustancias={this.state.sustancias}
+            data={this.state}
+            handleSubmit={this.submitSustancia}
+            handleChange={this.handleChange} />
     </MainPage>
     );
 }

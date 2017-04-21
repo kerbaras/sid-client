@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Card,  CardText } from 'material-ui/Card';
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table';
 import { Context as MjContext, Node as MjNode} from 'react-mathjax';
 
 const tableEntry = (sustancia, key, tools) => (
@@ -9,7 +9,7 @@ const tableEntry = (sustancia, key, tools) => (
         <TableRowColumn>
             <MjContext><MjNode inline>{sustancia.formula}</MjNode></MjContext>
         </TableRowColumn>
-        <TableRowColumn>{sustancia.name}</TableRowColumn>
+        <TableRowColumn>{sustancia.nombre}</TableRowColumn>
         <TableRowColumn>{sustancia.cas}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(sustancia)}</TableRowColumn>
     </TableRow>
@@ -21,6 +21,14 @@ const SustanciasTable = ({ sustancias, style, tools }) => (
             <Card style={style}>
                 <CardText>
                     <Table multiSelectable={true}>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Formula</TableHeaderColumn>
+                                <TableHeaderColumn>Nombre</TableHeaderColumn>
+                                <TableHeaderColumn>Cas</TableHeaderColumn>
+                                <TableHeaderColumn>Tools</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
                         <TableBody>
                         { constructBody(sustancias, tools) }
                         </TableBody>

@@ -32,9 +32,11 @@ const AddButton = ({data, handleSubmit, handleChange}) => (
     </NewDialog>
 );
 
-const SustanciasList = (sustancias, data, handleSubmit, handleChange) => [
-    <SustanciasTable sustancias={sustancias} tools={tools} key="table" />,
-    <AddButton key="new" data={data} handleSubmit={handleSubmit} handleChange={handleChange} />
-];
+const SustanciasList = ({sustancias, data, handleSubmit, handleChange}) => (
+    <sustancias-list>
+        <SustanciasTable sustancias={sustancias} tools={tools} key="table" />
+        <AddButton key="new" data={data} handleSubmit={handleSubmit} handleChange={handleChange} />
+    </sustancias-list>
+)
 
 export default SustanciasList;
