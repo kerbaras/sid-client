@@ -2,6 +2,7 @@ import React from 'react';
 import MainPage from '../MainPage';
 import UserList from './UserList';
 import {getResource, postResource} from '../../libs/api.js'
+import db from '../../libs/db.js'
 
 class Users extends React.Component{
 
@@ -17,25 +18,30 @@ class Users extends React.Component{
             password: ''
         }
 
-        this.updateUsers();
     }
 
-    componentWillReceiveProps(){
-        this.updateUsers()
+    componentDidMount(){
+        db.child('users').on('value', snap => this.setState({ users: snap.val() }))
+        console.log(this.state.users)
     }
 
-    updateUsers(){
-        getResource('usuarios/').then(response => this.setState({ users: response.data.data }))
+    componentWillReceiveProps(nextProps, nextContext){
+        //db.child('users').on('value', snap => this.setState({ users: snap.val() }))
+        console.log(this.state.users)
     }
 
-    createUser(user){
-        postResource('usuarios/', {
 
-        }).then(response =>{
-            if(response.status == 201){
-                this.updateUsers()
-            }
-        })
+    updateUsers = () =>{
+        let user = {
+            nombre: this.state.nombre,
+            apellido: this.state.apellido,
+            role: this.state.role,
+            email: this.state.email,
+            password: this.state.password,
+            username: this.state.username
+        }
+
+        db.child('users').push(user)
     }
 
     handleChange = property => event => {

@@ -1,7 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 import { Card,  CardText } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -44,8 +45,8 @@ const tools = ( user ) => [
  <MoreMenu key="more" user={user} />
 ];
 
-const tableEntry = (user) => (
-    <TableRow key={user.id}>
+const tableEntry = (user, key) => (
+    <TableRow key={key}>
         <TableRowColumn>{ user.apellido + ', ' + user.nombre }</TableRowColumn>
         <TableRowColumn>{user.username}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(user)}</TableRowColumn>
@@ -68,12 +69,19 @@ let users = [
     user(12, "Kerem Suer", "Usuario")
 ]*/
 
-const constructBody = (users) => users.map(user => tableEntry(user));
+const constructBody = (users) => _.map(users, (user,key) => tableEntry(user, key));
 
 const UserTable = ({users}) => (
             <Card style={{ marginRight: '16px', minWidth: '445px', flex:'2 0'}}>
                 <CardText>
                     <Table multiSelectable={true}>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>ID</TableHeaderColumn>
+                                <TableHeaderColumn>Nombre y Apellido</TableHeaderColumn>
+                                <TableHeaderColumn>username</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
                         <TableBody>
                         { constructBody(users) }
                         </TableBody>
@@ -82,8 +90,8 @@ const UserTable = ({users}) => (
             </Card>
 );
 
-const AddButton = ({ handlerNew, handleChange, data}) => (
-    <NewDialog onSubmit={handlerNew} title="Crear Usuario">
+const AddButton = ({ handleSubmit, handleChange, data}) => (
+    <NewDialog handleSubmit={handleSubmit} title="Crear Usuario">
         <NewForm handleChange={handleChange} data={data} />
     </NewDialog>
 );
@@ -91,7 +99,7 @@ const AddButton = ({ handlerNew, handleChange, data}) => (
 const UserList = (users, handlerNew, handleChange, state) => [
     <Panel key="panel"/>,
     <UserTable key="table" users={users}/>,
-    <AddButton key="new" handler={handlerNew} handleChange={handleChange} data={state}/>
+    <AddButton key="new" handleSubmit={handlerNew} handleChange={handleChange} data={state}/>
 ];
 
 export default UserList;

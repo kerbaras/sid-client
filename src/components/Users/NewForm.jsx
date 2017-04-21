@@ -38,35 +38,15 @@ const items = [
   <MenuItem key={3} value={3} primaryText="Usuario" />,
 ];
 
-class NewForm extends React.Component{
-
-    constructor(props){
-        super(props)
-        this.state = {
-            nombre: '',
-            apellido: '',
-            username: '',
-            email: '',
-            role: 'user',
-            password: ''
-        }
-    }
-
-    handleChange = property =>event => {
-        let nextState = { ...this.state };
-        nextState[property] = event.target.value;
-        this.setState(nextState);
-    };
-    
-    render = () => (
+const NewForm = ({data, handleChange}) => (
         <form style={styles.form}>
                 <Row>
-                    <Column><TextField floatingLabelText="Apellido" fullWidth={true} value={this.state.apellido} onChange={this.handleChange('apellido')} /></Column>
-                    <Column><TextField floatingLabelText="Nombre" fullWidth={true} value={this.state.nombre} onChange={this.handleChange('nombre')} /></Column>
+                    <Column><TextField floatingLabelText="Apellido" fullWidth={true} value={data.apellido} onChange={handleChange('apellido')} /></Column>
+                    <Column><TextField floatingLabelText="Nombre" fullWidth={true} value={data.nombre} onChange={handleChange('nombre')} /></Column>
                 </Row>
                 <Row>
-                    <Column><TextField floatingLabelText="Usuario" fullWidth={true} value={this.state.username} onChange={this.handleChange('username')} /></Column>
-                    <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" value={this.state.password} onChange={this.handleChange('password')} /></Column>
+                    <Column><TextField floatingLabelText="Usuario" fullWidth={true} value={data.username} onChange={handleChange('username')} /></Column>
+                    <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" value={data.password} onChange={handleChange('password')} /></Column>
                     <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" /></Column>
                 </Row>
                 <Row>
@@ -81,6 +61,5 @@ class NewForm extends React.Component{
                 </Row>
         </form>
     );
-}
 
 export default NewForm;
