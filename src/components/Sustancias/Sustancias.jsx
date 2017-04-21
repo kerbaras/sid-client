@@ -32,9 +32,9 @@ class Sustancias extends React.Component {
     }
 
     handleChange = property => event => {
-        let nextState = { ...this.state };
-        nextState.newSustancia[property] = event.target.value;
-        this.setState(nextState);
+        let nextState = { ...this.state.newSustancia };
+        nextState[property] = event.target.value;
+        this.setState({newSustancia: nextState});
     }
 
     componentDidMount(){
