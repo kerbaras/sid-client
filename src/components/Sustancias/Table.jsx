@@ -1,10 +1,11 @@
 import React from 'react';
+import _ from 'lodash';
 import { Card,  CardText } from 'material-ui/Card';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import { Context as MjContext, Node as MjNode} from 'react-mathjax';
 
-const tableEntry = (sustancia, tools) => (
-    <TableRow key={sustancia.id}>
+const tableEntry = (sustancia, key, tools) => (
+    <TableRow key={key}>
         <TableRowColumn>
             <MjContext><MjNode inline>{sustancia.formula}</MjNode></MjContext>
         </TableRowColumn>
@@ -14,7 +15,7 @@ const tableEntry = (sustancia, tools) => (
     </TableRow>
 );
 
-const constructBody = (sustancias, tools) => sustancias.map(sustancia => tableEntry(sustancia, tools));
+const constructBody = (sustancias, tools) => _.map(sustancias, (sustancia,key) => tableEntry(sustancia, key, tools));
 
 const SustanciasTable = ({ sustancias, style, tools }) => (
             <Card style={style}>

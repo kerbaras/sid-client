@@ -1,7 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 import { Card,  CardText } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -44,15 +45,15 @@ const tools = ( user ) => [
  <MoreMenu key="more" user={user} />
 ];
 
-const tableEntry = (user) => (
-    <TableRow key={user.id}>
-        <TableRowColumn>{user.name}</TableRowColumn>
-        <TableRowColumn>{user.status}</TableRowColumn>
+const tableEntry = (user, key) => (
+    <TableRow key={key}>
+        <TableRowColumn>{ user.apellido + ', ' + user.nombre }</TableRowColumn>
+        <TableRowColumn>{user.username}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(user)}</TableRowColumn>
     </TableRow>
 );
 
-const user = (id, name, status) => ({id, name, status});
+/*const user = (id, name, status) => ({id, name, status});
 let users = [
     user(1, "Matias Pierobon", "Administrador"),
     user(2, "John Doe", "Responsable"),
@@ -66,28 +67,39 @@ let users = [
     user(10, "Eric Hoffman", "Usuario"),
     user(11, "James Anderson", "Usuario"),
     user(12, "Kerem Suer", "Usuario")
-]
+]*/
 
-const constructBody = () => users.map(user => tableEntry(user));
+const constructBody = (users) => _.map(users, (user,key) => tableEntry(user, key));
 
-const UserTable = () => (
+const UserTable = ({users}) => (
             <Card style={{ marginRight: '16px', minWidth: '445px', flex:'2 0'}}>
                 <CardText>
                     <Table multiSelectable={true}>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>ID</TableHeaderColumn>
+                                <TableHeaderColumn>Nombre y Apellido</TableHeaderColumn>
+                                <TableHeaderColumn>username</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
                         <TableBody>
-                        { constructBody() }
+                        { constructBody(users) }
                         </TableBody>
                     </Table>
                 </CardText>
             </Card>
 );
 
-const AddButton = () => (
-    <NewDialog title="Crear Usuario">
-        <NewForm />
+const AddButton = ({ handleSubmit, handleChange, data}) => (
+    <NewDialog handleSubmit={handleSubmit} title="Crear Usuario">
+        <NewForm handleChange={handleChange} data={data} />
     </NewDialog>
 );
 
-const UserList = () => [<Panel key="panel"/>, <UserTable key="table" />, <AddButton key="new" />];
+const UserList = (users, handlerNew, handleChange, state) => [
+    <Panel key="panel"/>,
+    <UserTable key="table" users={users}/>,
+    <AddButton key="new" handleSubmit={handlerNew} handleChange={handleChange} data={state}/>
+];
 
 export default UserList;

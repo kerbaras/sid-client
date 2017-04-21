@@ -38,28 +38,28 @@ const items = [
   <MenuItem key={3} value={3} primaryText="Usuario" />,
 ];
 
-const NewForm = () => (
-    <form style={styles.form}>
-            <Row>
-                <Column><TextField floatingLabelText="Apellido" fullWidth={true} /></Column>
-                <Column><TextField floatingLabelText="Nombre" fullWidth={true} /></Column>
-            </Row>
-            <Row>
-                <Column><TextField floatingLabelText="Usuario" fullWidth={true} /></Column>
-                <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" /></Column>
-                <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" /></Column>
-            </Row>
-            <Row>
-                <Column><DatePicker floatingLabelText="Fecha de Ingreso" fullWidth={true}
-                                     defaultDate={new Date()} formatDate={(date) => date.toDateString()}/></Column>
-                <Column><SelectField
-                        floatingLabelText="Rol"
-                        fullWidth={true}
-                    >
-                    {items}
-                </SelectField></Column>
-            </Row>
-    </form>
-);
+const NewForm = ({data, handleChange}) => (
+        <form style={styles.form}>
+                <Row>
+                    <Column><TextField floatingLabelText="Apellido" fullWidth={true} value={data.apellido} onChange={handleChange('apellido')} /></Column>
+                    <Column><TextField floatingLabelText="Nombre" fullWidth={true} value={data.nombre} onChange={handleChange('nombre')} /></Column>
+                </Row>
+                <Row>
+                    <Column><TextField floatingLabelText="Usuario" fullWidth={true} value={data.username} onChange={handleChange('username')} /></Column>
+                    <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" value={data.password} onChange={handleChange('password')} /></Column>
+                    <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" /></Column>
+                </Row>
+                <Row>
+                    <Column><DatePicker floatingLabelText="Fecha de Ingreso" fullWidth={true}
+                                        defaultDate={new Date()} formatDate={(date) => date.toDateString()}/></Column>
+                    <Column><SelectField
+                            floatingLabelText="Rol"
+                            fullWidth={true}
+                        >
+                        {items}
+                    </SelectField></Column>
+                </Row>
+        </form>
+    );
 
 export default NewForm;

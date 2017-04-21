@@ -22,7 +22,7 @@ const Button = ({icon, onTouchTap, secondary}) => (
     </FloatingActionButton>
 );
 
-export default class NewDialog extends React.Component {
+export default class FloatingDialog extends React.Component {
   state = {
     open: false,
   };
@@ -35,6 +35,11 @@ export default class NewDialog extends React.Component {
     this.setState({open: false});
   };
 
+  handleSubmit(){
+    this.handleClose()
+    this.props.handleSubmit()
+  }
+
   render() {
     const actions = [
         <FlatButton
@@ -45,7 +50,7 @@ export default class NewDialog extends React.Component {
             label="Submit"
             primary={true}
             keyboardFocused={true}
-            onTouchTap={()=>this.handleClose()}
+            onTouchTap={()=>this.handleSubmit()}
         />
     ];
     return (
