@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { Card, CardActions, CardTitle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { SustanciasTable } from '../Sustancias';

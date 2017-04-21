@@ -46,13 +46,13 @@ const tools = ( user ) => [
 
 const tableEntry = (user) => (
     <TableRow key={user.id}>
-        <TableRowColumn>{user.name}</TableRowColumn>
-        <TableRowColumn>{user.status}</TableRowColumn>
+        <TableRowColumn>{ user.apellido + ', ' + user.nombre }</TableRowColumn>
+        <TableRowColumn>{user.username}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(user)}</TableRowColumn>
     </TableRow>
 );
 
-const user = (id, name, status) => ({id, name, status});
+/*const user = (id, name, status) => ({id, name, status});
 let users = [
     user(1, "Matias Pierobon", "Administrador"),
     user(2, "John Doe", "Responsable"),
@@ -66,28 +66,32 @@ let users = [
     user(10, "Eric Hoffman", "Usuario"),
     user(11, "James Anderson", "Usuario"),
     user(12, "Kerem Suer", "Usuario")
-]
+]*/
 
-const constructBody = () => users.map(user => tableEntry(user));
+const constructBody = (users) => users.map(user => tableEntry(user));
 
-const UserTable = () => (
+const UserTable = ({users}) => (
             <Card style={{ marginRight: '16px', minWidth: '445px', flex:'2 0'}}>
                 <CardText>
                     <Table multiSelectable={true}>
                         <TableBody>
-                        { constructBody() }
+                        { constructBody(users) }
                         </TableBody>
                     </Table>
                 </CardText>
             </Card>
 );
 
-const AddButton = () => (
-    <NewDialog title="Crear Usuario">
-        <NewForm />
+const AddButton = ({ handlerNew, handleChange, data}) => (
+    <NewDialog onSubmit={handlerNew} title="Crear Usuario">
+        <NewForm handleChange={handleChange} data={data} />
     </NewDialog>
 );
 
-const UserList = () => [<Panel key="panel"/>, <UserTable key="table" />, <AddButton key="new" />];
+const UserList = (users, handlerNew, handleChange, state) => [
+    <Panel key="panel"/>,
+    <UserTable key="table" users={users}/>,
+    <AddButton key="new" handler={handlerNew} handleChange={handleChange} data={state}/>
+];
 
 export default UserList;
