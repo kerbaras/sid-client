@@ -14,21 +14,23 @@ class Users extends React.Component{
             apellido: '',
             username: '',
             email: '',
-            role: 'user',
+            isAdmin: false,
             password: ''
         }
 
     }
 
     componentDidMount(){
-        db.child('users').on('value', snap => this.setState({ users: snap.val() }))
-        console.log(this.state.users)
+        this.getUsers()
     }
 
     componentWillReceiveProps(nextProps, nextContext){
         //db.child('users').on('value', snap => this.setState({ users: snap.val() }))
-        console.log(this.state.users)
+        this.getUsers()
     }
+
+    getUsers = () => 
+        getResource('usuarios').then(response => this.setState({ users: response.data.data }))
 
 
     updateUsers = () =>{
@@ -41,7 +43,7 @@ class Users extends React.Component{
             username: this.state.username
         }
 
-        db.child('users').push(user)
+        postResource('usuarios', { ...user }).then(this.getUsers())
     }
 
     handleChange = property => event => {

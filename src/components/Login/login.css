@@ -1,0 +1,21 @@
+login{
+    width: 400px;
+    display: block;
+    margin: 120px auto 0;
+}
+
+login header{
+    padding: 85px 50px 15px;
+    font-size: xx-large;
+    font-weight: 200;
+    background: #2196F3;
+    color: #fff;
+}
+login section {
+    padding: 15px 50px;
+}
+
+login footer {
+    padding: 15px 50px 25px;
+    text-align: right;
+}

@@ -1,20 +1,21 @@
 import localStorage from 'localStorage'
-import jwt from 'jsonwebtoken'
+
+const getToken = () => {console.log(localStorage.getItem('token')); return localStorage.getItem('token')}
 
 const getUser = () => {
-    let token = localStorage.getItem('token')
+    let token = getToken()
     console.log(token);
     if(token == null){
         return null
     }
 
-    let decoded = jwt.decode(token, {complete: true})
+    let decoded = JSON.parse(atob(token.split('.')[1]))
     console.log(decoded)
-    return decoded.payload
+    return decoded
 }
 
 const updateToken = (token) => {
     localStorage.setItem('token', JSON.stringify(token));
 }
 
-export {getUser, updateToken}
+export {getToken, getUser, updateToken}

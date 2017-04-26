@@ -1,19 +1,24 @@
-import React from 'react';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import App from '../App';
-import Sustancias from '../Sustancias';
-import Users from '../Users';
-import UnidadEjecutora from '../UnidadEjecutora';
-import Drogueros, { DroguerosList, Droguero } from '../Drogueros';
-import NotFound from '../NotFound';
+import React from 'react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
+import App from '../App'
+import Sustancias from '../Sustancias'
+import Users from '../Users'
+import UnidadEjecutora from '../UnidadEjecutora'
+import Drogueros, { DroguerosList, Droguero } from '../Drogueros'
+import NotFound from '../NotFound'
 import {getUser} from '../../libs/user'
 import Login from '../Login'
+import defaultTheme from '../../themes/default'
+
+const muiTheme = getMuiTheme(defaultTheme)
 
 let createRouter = () => {
     let user = getUser()
     if(user == null){
         return (
-                <Route path="/" component={Login}/>
+                <Route path="*" component={Login}/>
         )
     }else{
         return (
@@ -33,9 +38,11 @@ let createRouter = () => {
 }
 
 const MyRouter = () => (
-    <Router history={hashHistory}>
-        { createRouter() }
-    </Router>
-);
+    <MuiThemeProvider muiTheme={muiTheme}>
+        <Router history={hashHistory}>
+            { createRouter() }
+        </Router>
+    </MuiThemeProvider>
+)
 
 export default MyRouter;
