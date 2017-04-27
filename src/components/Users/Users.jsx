@@ -16,7 +16,7 @@ class Users extends React.Component{
             isAdmin: false,
             password: '',
             repeatedPasswod: '',
-            unidad: -1
+            unidad:1 
         }
 
     }
@@ -30,7 +30,7 @@ class Users extends React.Component{
     }
 
     getUsers = () => 
-        getResource('usuarios').then(response => this.setState({ users: response.data.data }))
+        getResource('usuarios/').then(response => this.setState({ users: response.data.data }))
 
 
     updateUsers = () =>{
@@ -48,7 +48,7 @@ class Users extends React.Component{
             unidad: this.state.unidad
         }
 
-        postResource('usuarios', { ...user }).then(this.getUsers())
+        postResource('usuarios/', { ...user }).then(this.getUsers())
     }
 
     handleChange = (property, isSelect = null) => {

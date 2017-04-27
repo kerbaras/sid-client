@@ -1,7 +1,7 @@
 import React from 'react';
 import MainPage from '../MainPage';
 import SustanciasList from './List';
-import db from '../../libs/db.js'
+import {postResource, getResource} from '../../libs/api'
 
 const cleanSustancia = {
                 formula:"",
@@ -15,7 +15,7 @@ class Sustancias extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            sustancias: {},
+            sustancias: [],
             formula:"",
             nombre:"",
             cas:"",
@@ -28,7 +28,7 @@ class Sustancias extends React.Component {
     submitSustancia = () =>{
         let {formula, nombre, cas, densidad, tipoMedida} = this.state
         let newSustancia = {formula, nombre, densidad, tipoMedida}
-        db.child('sustancias').push(newSustancia)
+        postResource('sustancias/', newSustancia).then(()=>this.getSustancias())
     }
 
     handleChange = property => event => {
@@ -38,8 +38,10 @@ class Sustancias extends React.Component {
     }
 
     componentDidMount(){
-        db.child('sustancias').on('value', snap => this.setState({ sustancias: snap.val() }))
+        this.getSustancias()
     }
+
+    getSustancias = () => getResource('sustancias/').then(response => this.setState({ sustancias: response.data.data}))
 
     render = () => (
     <MainPage title="Sustancias">

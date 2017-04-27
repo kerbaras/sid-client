@@ -29,7 +29,7 @@ const styles = {
 const Column = ({children}) => <column style={styles.col}>{children}</column>;
 const Row = ({children, color}) => <row style={styles.row(color)}>{children}</row>;
 
-const InputText = ({ label }) => <TextField floatingLabelText={ label } fullWidth={ true } />;
+const InputText = ({ label, value, onChange }) => <TextField floatingLabelText={ label } fullWidth={ true } value={value} onChange={onChange}/>;
 
 /*
  *  <Row>

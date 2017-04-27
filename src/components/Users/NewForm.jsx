@@ -75,10 +75,6 @@ class NewForm extends React.Component{
                     <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" value={data.password} onChange={handleChange('password')} /></Column>
                     <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" value={data.repeatedPasswod} onChange={handleChange('repeatedPasswod')} errorText={ data.repeatedPasswod !== data.password ? " Las Contraseñas no coinciden" : null } /></Column>
                 </Row>
-                <Row>
-                    <Column><SelectField floatingLabelText="Unidad" fullWidth={true} value={data.unidad} onChange={handleChange('unidad', true)}> { this.renderOptions() } </SelectField></Column>
-                    <Column><Toggle  label="Es Administrador" defaultToggled={false} /></Column>
-                </Row>
         </form>
     )}
 }
