@@ -3,6 +3,8 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Toggle from 'material-ui/Toggle'
+import { getResource } from '../../libs/api'
 
 const styles = {
     row: (color) => ({
@@ -38,7 +40,31 @@ const items = [
   <MenuItem key={3} value={3} primaryText="Usuario" />,
 ];
 
-const NewForm = ({data, handleChange}) => (
+class NewForm extends React.Component{
+    
+    constructor(props){
+        super(props)
+        this.state={
+            unidades:[]
+        }
+    }
+
+    componentDidMount(){
+        this.getUnidades()
+    }
+
+    componentWillReceiveProps(nextProps, nextContext){
+        this.getUnidades()
+    }
+
+    getUnidades = () => 
+        getResource('unidades/').then(response => this.setState({ unidades: response.data.data }))
+
+    renderOptions = () => this.state.unidades.map( unidad => <MenuItem key={unidad.id} value={unidad.id} primaryText={unidad.nombre} />)
+
+    render = () => {
+        let { data, handleChange } = this.props
+        return (
         <form style={styles.form}>
                 <Row>
                     <Column><TextField floatingLabelText="Apellido" fullWidth={true} value={data.apellido} onChange={handleChange('apellido')} /></Column>
@@ -47,19 +73,14 @@ const NewForm = ({data, handleChange}) => (
                 <Row>
                     <Column><TextField floatingLabelText="Usuario" fullWidth={true} value={data.username} onChange={handleChange('username')} /></Column>
                     <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" value={data.password} onChange={handleChange('password')} /></Column>
-                    <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" /></Column>
+                    <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" value={data.repeatedPasswod} onChange={handleChange('repeatedPasswod')} errorText={ data.repeatedPasswod !== data.password ? " Las Contraseñas no coinciden" : null } /></Column>
                 </Row>
                 <Row>
-                    <Column><DatePicker floatingLabelText="Fecha de Ingreso" fullWidth={true}
-                                        defaultDate={new Date()} formatDate={(date) => date.toDateString()}/></Column>
-                    <Column><SelectField
-                            floatingLabelText="Rol"
-                            fullWidth={true}
-                        >
-                        {items}
-                    </SelectField></Column>
+                    <Column><SelectField floatingLabelText="Unidad" fullWidth={true} value={data.unidad} onChange={handleChange('unidad', true)}> { this.renderOptions() } </SelectField></Column>
+                    <Column><Toggle  label="Es Administrador" defaultToggled={false} /></Column>
                 </Row>
         </form>
-    );
+    )}
+}
 
 export default NewForm;

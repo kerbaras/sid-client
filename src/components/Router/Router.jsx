@@ -1,48 +1,24 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { Router, Route, IndexRoute, hashHistory } from 'react-router'
+import { HashRouter as Router } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 import App from '../App'
-import Sustancias from '../Sustancias'
-import Users from '../Users'
-import UnidadEjecutora from '../UnidadEjecutora'
-import Drogueros, { DroguerosList, Droguero } from '../Drogueros'
-import NotFound from '../NotFound'
-import {getUser} from '../../libs/user'
 import Login from '../Login'
 import defaultTheme from '../../themes/default'
+import { getUser } from '../../redux/getters'
 
 const muiTheme = getMuiTheme(defaultTheme)
 
-let createRouter = () => {
-    let user = getUser()
-    if(user == null){
-        return (
-                <Route path="*" component={Login}/>
-        )
-    }else{
-        return (
-            <Route path="/" component={App}>
-                <IndexRoute component={NotFound} />
-                <Route path="sustancias" component={Sustancias}/>
-                <Route path="usuarios" component={Users} />
-                <Route path="unidades" component={UnidadEjecutora} />
-                <Route path="drogueros" component={Drogueros} >
-                    <IndexRoute components={DroguerosList} />
-                    <Route path=":drogueroId" component={Droguero} />
-                </Route>
-                <Route path="*" component={NotFound} />
-            </Route>
-        )
-    }
-}
+let createRouter = (user) =>  user ? <App isAdmin={user.roles.indexOf('ROLE_ADMIN') > -1 }/> : <Login/>
 
-const MyRouter = () => (
+const MyRouter = ({ user }) => (
     <MuiThemeProvider muiTheme={muiTheme}>
-        <Router history={hashHistory}>
-            { createRouter() }
+        <Router>
+            { createRouter(user) }
         </Router>
     </MuiThemeProvider>
 )
 
-export default MyRouter;
+export default connect(getUser)(MyRouter);

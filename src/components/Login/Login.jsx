@@ -1,9 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { postResource } from '../../libs/api'
-import { updateToken } from '../../libs/user'
+import { getUser } from '../../redux/getters'
+import { userActions } from '../../redux/actions'
+
 import './login.css'
 
 const Error = ({ text }) => (
@@ -16,7 +18,7 @@ class Login extends React.Component{
 
     constructor(props){
         super(props)
-        this.state={ username: '', password: '', invalid: false }
+        this.state={ username: '', password: '', first: true }
     }
 
    handleChange = property => event => {
@@ -25,19 +27,9 @@ class Login extends React.Component{
         this.setState(nextState);
     }
 
-    doLogin = () => {
-        postResource('login_check',
-            `_username=${this.state.username}&_password=${this.state.password}`, 
-            { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}
-            )
-            .then( response => {
-                this.setState({ invalid: false })
-                updateToken(response.data.token)
-            })
-            .catch( response => this.setState({ invalid: true }))
-    } 
+    doLogin = () => this.props.doLogin(this.state.username, this.state.password)
 
-    showError = () => this.state.invalid ? (<Error text="Nombre o contraseña erróneos!" />) : null
+    showError = () => (this.props.user && !this.state.first) ? (<Error text="Nombre o contraseña erróneos!" />) : null
 
     render = () => (
         <login>
@@ -58,4 +50,4 @@ class Login extends React.Component{
     )
 }
 
-export default Login
+export default connect(getUser, userActions)(Login)

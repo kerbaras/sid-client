@@ -35,7 +35,6 @@ const MoreMenu = ({ user }) => (
       <MenuItem primaryText="Eliminar" leftIcon={<IconDelete />} />
       <Divider />
       <MenuItem primaryText="Administrador" rightIcon={ user.status === "Administrador" ? <IconCheck /> : undefined} />
-      <MenuItem primaryText="Responsable" rightIcon={ user.status === "Responsable" ? <IconCheck /> : undefined} />
       <MenuItem primaryText="Usuario" rightIcon={ user.status === "Usuario" ? <IconCheck /> : undefined} />
     </IconMenu>
 );
@@ -53,22 +52,6 @@ const tableEntry = (user, key) => (
     </TableRow>
 );
 
-/*const user = (id, name, status) => ({id, name, status});
-let users = [
-    user(1, "Matias Pierobon", "Administrador"),
-    user(2, "John Doe", "Responsable"),
-    user(3, "Chelsea Otakan", "Responsable"),
-    user(4, "Eric Hoffman", "Usuario"),
-    user(5, "James Anderson", "Usuario"),
-    user(6, "Kerem Suer", "Usuario"),
-    user(7, "Matias Pierobon", "Administrador"),
-    user(8, "John Doe", "Responsable"),
-    user(9, "Chelsea Otakan", "Responsable"),
-    user(10, "Eric Hoffman", "Usuario"),
-    user(11, "James Anderson", "Usuario"),
-    user(12, "Kerem Suer", "Usuario")
-]*/
-
 const constructBody = (users) => _.map(users, (user,key) => tableEntry(user, key));
 
 const UserTable = ({users}) => (
@@ -77,9 +60,9 @@ const UserTable = ({users}) => (
                     <Table multiSelectable={true}>
                         <TableHeader>
                             <TableRow>
-                                <TableHeaderColumn>ID</TableHeaderColumn>
                                 <TableHeaderColumn>Nombre y Apellido</TableHeaderColumn>
                                 <TableHeaderColumn>username</TableHeaderColumn>
+                                <TableHeaderColumn>Opciones</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

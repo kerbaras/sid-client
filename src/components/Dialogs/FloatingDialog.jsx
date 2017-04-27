@@ -43,11 +43,11 @@ export default class FloatingDialog extends React.Component {
   render() {
     const actions = [
         <FlatButton
-            label="Cancel"
+            label="Cancelar"
             onTouchTap={()=>this.handleClose()}
         />,
         <FlatButton
-            label="Submit"
+            label="Aceptar"
             primary={true}
             keyboardFocused={true}
             onTouchTap={()=>this.handleSubmit()}

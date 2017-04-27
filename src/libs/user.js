@@ -1,21 +1,22 @@
 import localStorage from 'localStorage'
 
-const getToken = () => {console.log(localStorage.getItem('token')); return localStorage.getItem('token')}
+const getToken = () => {return localStorage.getItem('sid_token')}
 
 const getUser = () => {
     let token = getToken()
-    console.log(token);
     if(token == null){
         return null
     }
-
-    let decoded = JSON.parse(atob(token.split('.')[1]))
-    console.log(decoded)
-    return decoded
+    try {
+        let decoded = JSON.parse(atob(token.split('.')[1]))
+        return decoded
+    } catch (error) {
+        return null
+    }
 }
 
-const updateToken = (token) => {
-    localStorage.setItem('token', JSON.stringify(token));
+const setToken = (token) => {
+    localStorage.setItem('sid_token', token);
 }
 
-export {getToken, getUser, updateToken}
+export {getToken, getUser, setToken}

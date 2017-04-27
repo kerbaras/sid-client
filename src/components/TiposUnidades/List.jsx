@@ -1,11 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
-import { Link } from 'react-router-dom'
 import { Card,  CardText } from 'material-ui/Card';
+import { List, ListItem } from 'material-ui/List';
 import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table';
-import FlatButton from 'material-ui/FlatButton'
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconEdit from 'material-ui/svg-icons/content/create';
+import IconDelete from 'material-ui/svg-icons/action/delete';
+import IconCheck from 'material-ui/svg-icons/navigation/check';
 import { NewDialog } from '../Dialogs';
 import NewForm from './NewForm';
 
@@ -17,7 +22,6 @@ const tableEntry = (unidad, key) => (
     <TableRow key={key}>
         <TableRowColumn>{unidad.nombre }</TableRowColumn>
         <TableRowColumn>{unidad.detalle}</TableRowColumn>
-        <TableRowColumn>{unidad.tipo.nombre}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(unidad)}</TableRowColumn>
     </TableRow>
 );
@@ -32,7 +36,6 @@ const UnidadTable = ({unidades}) => (
                             <TableRow>
                                 <TableHeaderColumn>Nombre</TableHeaderColumn>
                                 <TableHeaderColumn>Detalle</TableHeaderColumn>
-                                <TableHeaderColumn>Tipo</TableHeaderColumn>
                                 <TableHeaderColumn>Opciones</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
@@ -51,7 +54,6 @@ const AddButton = ({ handleSubmit, handleChange, data}) => (
 );
 
 const UserList = (unidades, handlerNew, handleChange, state) => [
-    <section key="tipos"><Link to='/unidades/tipos'> <FlatButton label="Tipos de Unidades" primary={true} /> </Link></section>,
     <UnidadTable key="table" unidades={unidades}/>,
     <AddButton key="new" handleSubmit={handlerNew} handleChange={handleChange} data={state}/>
 ];

@@ -1,7 +1,13 @@
-import React from 'react';
-import AppBar from 'material-ui/AppBar';
-import SideMenu from './SideMenu';
-import './App.css';
+import React from 'react'
+import { Route } from 'react-router-dom'
+import AppBar from 'material-ui/AppBar'
+import SideMenu from './SideMenu'
+import NotFound from './NotFound'
+import Users from './Users'
+import Sustancias from './Sustancias'
+import UnidadEjecutora from './UnidadEjecutora'
+import Drogueros from './Drogueros'
+import './App.css'
 
 
 class App extends React.Component {
@@ -22,7 +28,11 @@ class App extends React.Component {
             />
             <SideMenu />
             <div className="page-content">
-                {this.props.children} 
+                <Route exact path="/" component={NotFound}/>
+                <Route path="/sustancias" component={Sustancias}/>
+                <Route path="/usuarios" component={Users}/>
+                <Route path="/unidades" component={UnidadEjecutora}/>
+                <Route path="/drogueros" component={Drogueros}/>
             </div>
         </app>
     );

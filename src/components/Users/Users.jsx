@@ -2,7 +2,6 @@ import React from 'react';
 import MainPage from '../MainPage';
 import UserList from './UserList';
 import {getResource, postResource} from '../../libs/api.js'
-import db from '../../libs/db.js'
 
 class Users extends React.Component{
 
@@ -15,7 +14,9 @@ class Users extends React.Component{
             username: '',
             email: '',
             isAdmin: false,
-            password: ''
+            password: '',
+            repeatedPasswod: '',
+            unidad: -1
         }
 
     }
@@ -25,7 +26,6 @@ class Users extends React.Component{
     }
 
     componentWillReceiveProps(nextProps, nextContext){
-        //db.child('users').on('value', snap => this.setState({ users: snap.val() }))
         this.getUsers()
     }
 
@@ -34,22 +34,36 @@ class Users extends React.Component{
 
 
     updateUsers = () =>{
+        if(this.state.repeatedPasswod !== this.state.password || this.state.password.replace(/\s/gi, '').length== 0){
+            return
+        }
+        
         let user = {
             nombre: this.state.nombre,
             apellido: this.state.apellido,
             role: this.state.role,
             email: this.state.email,
             password: this.state.password,
-            username: this.state.username
+            username: this.state.username.replace(/[\s.]/gi, ''),
+            unidad: this.state.unidad
         }
 
         postResource('usuarios', { ...user }).then(this.getUsers())
     }
 
-    handleChange = property => event => {
-        let nextState = { ...this.state };
-        nextState[property] = event.target.value;
-        this.setState(nextState);
+    handleChange = (property, isSelect = null) => {
+        if(isSelect){
+            return (event, index, value) => {
+                let nextState = { ...this.state };
+                nextState[property] = value;
+                this.setState(nextState)
+            }
+        }
+        return event => {
+            let nextState = { ...this.state };
+            nextState[property] = event.target.value;
+            this.setState(nextState);
+        }
     }
     
     render = () => (

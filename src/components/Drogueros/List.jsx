@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';

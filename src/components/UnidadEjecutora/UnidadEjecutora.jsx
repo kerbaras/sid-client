@@ -1,8 +1,9 @@
 import React from 'react';
-import MainPage from '../MainPage';
+import { Route } from 'react-router-dom'
+import MainPage from '../MainPage'
+import TiposUnidades from '../TiposUnidades';
 import List from './List';
 import {getResource, postResource} from '../../libs/api.js'
-import db from '../../libs/db.js'
 
 class Unidades extends React.Component{
 
@@ -18,14 +19,15 @@ class Unidades extends React.Component{
     }
 
     componentDidMount(){
-        db.child('unidades').on('value', snap => this.setState({ unidades: snap.val() }))
-        console.log(this.state.unidades)
+        this.getUnidades()
     }
 
     componentWillReceiveProps(nextProps, nextContext){
-        //db.child('unidades').on('value', snap => this.setState({ unidades: snap.val() }))
-        console.log(this.state.unidades)
+        this.getUnidades()
     }
+
+    getUnidades = () => 
+        getResource('unidades/').then(response => this.setState({ unidades: response.data.data }))
 
 
     updateUnidades = () =>{
@@ -34,19 +36,29 @@ class Unidades extends React.Component{
             detalle: this.state.detalle,
             tipo: this.state.tipo
         }
-
-        db.child('unidades').push(unidad)
+       
+       postResource('unidades/', { ...unidad }).then(()=>this.getUnidades())
     }
 
-    handleChange = property => event => {
-        let nextState = { ...this.state };
-        nextState[property] = event.target.value;
-        this.setState(nextState);
+    handleChange = (property, isSelect = null) => {
+        if(isSelect){
+            return (event, index, value) => {
+                let nextState = { ...this.state };
+                nextState[property] = value;
+                this.setState(nextState)
+            }
+        }
+        return event => {
+            let nextState = { ...this.state };
+            nextState[property] = event.target.value;
+            this.setState(nextState);
+        }
     }
     
     render = () => (
         <MainPage title="Unidades Ejecutoras">
-            { List(this.state.unidades, this.updateUnidades, this.handleChange, this.state) }
+            <Route exact path={`/unidades/tipos`} component={TiposUnidades}/>
+            <Route exact path='/unidades' render={() => <unidades> { List(this.state.unidades, this.updateUnidades, this.handleChange, this.state) } </unidades>}/>
         </MainPage>
     );
 }
