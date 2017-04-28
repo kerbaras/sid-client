@@ -14,19 +14,6 @@ import IconCheck from 'material-ui/svg-icons/navigation/check';
 import { NewDialog } from '../Dialogs';
 import NewForm from './NewForm';
 
-const Panel = () => (
-    <Card style={{ margin: '0 16px 16px 0', flex: '1 2 0' }}>
-        <CardText style={{ padding:0 }}>
-            <List>
-                <ListItem primaryText="Todos los Usuarios"/>
-                <ListItem primaryText="Administradores"/>
-                <ListItem primaryText="Responsables"/>
-                <ListItem primaryText="Usuarios"/>
-            </List>
-        </CardText>
-    </Card>
-);
-
 const MoreMenu = ({ user }) => (
     <IconMenu
       iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -40,14 +27,15 @@ const MoreMenu = ({ user }) => (
 );
 
 const tools = ( user ) => [
- <IconButton key="edit"><IconEdit /></IconButton> ,
- <MoreMenu key="more" user={user} />
+ <IconButton key="edit"><IconEdit /></IconButton>
 ];
 
 const tableEntry = (user, key) => (
     <TableRow key={key}>
         <TableRowColumn>{ user.apellido + ', ' + user.nombre }</TableRowColumn>
         <TableRowColumn>{user.username}</TableRowColumn>
+        <TableRowColumn>{user.email}</TableRowColumn>
+        <TableRowColumn>{(new Date(user.fecha.date)).toLocaleDateString('es')}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(user)}</TableRowColumn>
     </TableRow>
 );
@@ -61,7 +49,9 @@ const UserTable = ({users}) => (
                         <TableHeader>
                             <TableRow>
                                 <TableHeaderColumn>Nombre y Apellido</TableHeaderColumn>
-                                <TableHeaderColumn>username</TableHeaderColumn>
+                                <TableHeaderColumn>Usuario</TableHeaderColumn>
+                                <TableHeaderColumn>Correo</TableHeaderColumn>
+                                <TableHeaderColumn>Fecha</TableHeaderColumn>
                                 <TableHeaderColumn>Opciones</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
@@ -80,7 +70,6 @@ const AddButton = ({ handleSubmit, handleChange, data}) => (
 );
 
 const UserList = (users, handlerNew, handleChange, state) => [
-    <Panel key="panel"/>,
     <UserTable key="table" users={users}/>,
     <AddButton key="new" handleSubmit={handlerNew} handleChange={handleChange} data={state}/>
 ];

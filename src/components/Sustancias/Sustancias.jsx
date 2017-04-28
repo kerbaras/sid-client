@@ -27,7 +27,7 @@ class Sustancias extends React.Component {
 
     submitSustancia = () =>{
         let {formula, nombre, cas, densidad, tipoMedida} = this.state
-        let newSustancia = {formula, nombre, densidad, tipoMedida}
+        let newSustancia = {formula, nombre, cas, densidad, tipoMedida}
         postResource('sustancias/', newSustancia).then(()=>this.getSustancias())
     }
 

@@ -8,7 +8,7 @@ import AccountIcon from 'material-ui/svg-icons/social/person';
 import { NewDialog } from '../Dialogs';
 import { Row } from '../Utilis';
 import NewForm from './NewForm';
-import db from '../../libs/db.js'
+import { getResource, postResource } from '../../libs/api'
 
 const droguero = (id, unidadEjecutora, responsable, numero, imagen) => (
     {
@@ -20,13 +20,6 @@ const droguero = (id, unidadEjecutora, responsable, numero, imagen) => (
     }
 );
 const user = (name, status, image) => ({name, status, image});
-
-let drogueros = [
-    droguero(1, "Laboratorio1", user("John Doe", "Responsable"), "1202-6"),
-    droguero(2, "Introducción a la Química", user("Chelsea Otakan", "Responsable", "http://www.material-ui.com/images/jsa-128.jpg"), "2739-7", "http://www.material-ui.com/images/nature-600-337.jpg"),
-    droguero(3, "Grupo de José", user("Chelsea Otakan", "Responsable"), "7785-2"),
-    droguero(4, "Laboratorio LIDI", user("Matías Pierobon", "Administrador"), "7783-8")
-];
 
 const makeImage = image => image ? <CardMedia expandable={true}><img src={image} alt="" /></CardMedia> : null;
 const makeAvatar = image => image || <Avatar icon={<AccountIcon  />} />;
@@ -73,31 +66,34 @@ class DroguerosList extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            drogueros:{},
-            unidades: {},
-            usuarios: {},
+            drogueros:[],
             nombre: "",
-            alias: "",
-            unidad: -1,
-            responsable: -1
+            detalle: "",
+            unidad: '',
+            responsable: ''
         }
     }
 
     componentDidMount(){
-        db.child('unidades').on('value', snap => this.setState({ unidades: snap.val() }))
-        db.child('drogueros').on('value', snap => this.setState({ drogueros: snap.val() }))
-        db.child('usuarios').on('value', snap => this.setState({ usuarios: snap.val() }))
+        this.getDrogueros()
     }
+
+    componentWillReceiveProps(nextProps, nextContext){
+        this.getDrogueros()
+    }
+
+    getDrogueros = () => 
+        getResource('drogueros/').then(response => this.setState({ drogueros: response.data.data }))
 
     addDroguero = () =>{
         let droguero = {
             nombre: this.state.nombre,
-            alias: this.state.alias,
+            detalle: this.state.detalle,
             unidad: this.state.unidad,
             responsable: this.state.responsable
         }
 
-        db.child('droguero').push(droguero)
+        postResource('drogueros/', { ...droguero }).then(this.getDrogueros())
     }
 
     handleChange = property => event => {
@@ -110,8 +106,6 @@ class DroguerosList extends React.Component {
         <drogueros style={{ width: '100%' }}>
             <ListaDroguero 
                 drogueros={this.state.drogueros}
-                usuarios={this.state.usuarios}
-                unidades={this.stateunidades}
                 data={this.state}
                 handleSubmit={this.addDroguero}
                 handleChange={this.handleChange}/>

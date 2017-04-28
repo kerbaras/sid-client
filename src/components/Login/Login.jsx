@@ -34,7 +34,7 @@ class Login extends React.Component{
     render = () => (
         <login>
             <Paper zDepth={2}>
-                <header>LogIn!</header>
+                <header>Ingresar al sistema</header>
                 { this.showError() }
                 <section>
                     <div>
@@ -44,7 +44,7 @@ class Login extends React.Component{
                         <TextField floatingLabelText="Contraseña" type="password" fullWidth={true} value={this.state.password} onChange={this.handleChange('password')} />
                     </div>
                 </section>
-                <footer><RaisedButton label="Primary" primary={true} onTouchTap={this.doLogin} /></footer>
+                <footer><RaisedButton label="Aceptar" primary={true} onTouchTap={this.doLogin} /></footer>
             </Paper>
         </login>
     )

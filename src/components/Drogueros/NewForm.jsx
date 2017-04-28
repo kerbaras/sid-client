@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { getResource, postResource } from '../../libs/api'
 
 const styles = {
     row: (color) => ({
@@ -30,27 +31,54 @@ const styles = {
 
 const mapped = (obj) => _.map(obj, (obj, key) => ({...obj, key}))
 
-const createItems = (unidades) => unidades.map((unidad) => <MenuItem value={unidad.key} primaryText={unidad.nombre} />)
-const createUserItems = (users) => users.map((user) => <MenuItem value={user.key} primaryText={user.apellido + ', ' + user.nombre} />)
+const createItems = (unidades) => unidades.map((unidad) => <MenuItem key={unidad.id} value={unidad.id} primaryText={unidad.nombre} />)
+const createUserItems = (users) => users.map((user) => <MenuItem key={user.id} value={user.id} primaryText={user.apellido + ', ' + user.nombre} />)
 
 const UserSelect = ({data, handleChange, users, unidad}) => (
     <SelectField
-        floatingLabelText="Unidad Ejecutora"
+        floatingLabelText="Responsable"
+        fullWidth={true}
         value={data.responsable}
         onChange={handleChange("responsable")}
-    >{ createUserItems(users.filter( users => users.unidad == unidad )) }</SelectField>
+    >{ createUserItems(users.filter( user => user.unidad.id == unidad )) }</SelectField>
 )
 
-const createUserSelect = ({data, handleChange}, unidad, usuarios) => (unidad == -1) ? null : <Column><UserSelect handleChange={handleChange} data={data} users={usuarios} unidad={unidad} /></Column>
+const createUserSelect = ({data, handleChange}, unidad, usuarios) => (unidad == "") ? null : <Column><UserSelect handleChange={handleChange} data={data} users={usuarios} unidad={unidad} /></Column>
 
 
 const Column = ({children}) => <column style={styles.col}>{children}</column>;
 const Row = ({children, color}) => <row style={styles.row(color)}>{children}</row>;
 
-const InputText = ({ label }) => <TextField floatingLabelText={ label } fullWidth={ true } />;
+const InputText = ({ label, value, onChange }) => <TextField floatingLabelText={ label } fullWidth={ true }  value={value} onChange={onChange} />;
 
-const NewForm = ({data, handleChange, usuarios, unidades}) => {
-    console.log(mapped(unidades))
+class NewForm extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            unidades: [],
+            usuarios: []
+        }
+    }
+    
+    componentDidMount(){
+        this.getUnidades()
+        this.getUsuarios()
+    }
+
+    componentWillReceiveProps(nextProps, nextContext){
+        this.getUnidades()
+        this.getUsuarios()
+    }
+
+    getUnidades = () => 
+        getResource('unidades/').then(response => this.setState({ unidades: response.data.data }))
+
+    getUsuarios = () => 
+        getResource('usuarios/').then(response => this.setState({ usuarios: response.data.data }))
+    
+    render = () => {
+    let {data, handleChange } = this.props
     return (
     <form style={styles.form}>
             <Row>
@@ -59,16 +87,15 @@ const NewForm = ({data, handleChange, usuarios, unidades}) => {
             <Row>
                 <Column><SelectField
                     floatingLabelText="Unidad Ejecutora"
+                    fullWidth={true}
                     value={data.unidad}
-                    onChange={handleChange}
-                >{ createItems(mapped(unidades)) }</SelectField></Column>
-                {createUserSelect({data, handleChange}, data.unidad, mapped(usuarios))}
-            </Row>
-            <Row>
-                <Column><Toggle label="Requiere Sedronar" /></Column>
-                <Column><Toggle label="Requiere Renar" /></Column>
+                    onChange={handleChange('unidad')}
+                >{ createItems(this.state.unidades) }</SelectField></Column>
+                {createUserSelect({data, handleChange}, data.unidad, this.state.usuarios)}
             </Row>
     </form>
 )};
+
+}
 
 export default NewForm;

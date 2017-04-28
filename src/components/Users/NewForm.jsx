@@ -69,12 +69,19 @@ class NewForm extends React.Component{
                 <Row>
                     <Column><TextField floatingLabelText="Apellido" fullWidth={true} value={data.apellido} onChange={handleChange('apellido')} /></Column>
                     <Column><TextField floatingLabelText="Nombre" fullWidth={true} value={data.nombre} onChange={handleChange('nombre')} /></Column>
+
+                </Row>
+                <Row>
+                    <Column><TextField floatingLabelText="Correo electrónico" fullWidth={true} value={data.email} onChange={handleChange('email')} /></Column>
                 </Row>
                 <Row>
                     <Column><TextField floatingLabelText="Usuario" fullWidth={true} value={data.username} onChange={handleChange('username')} /></Column>
                     <Column><TextField floatingLabelText="Contraseña" fullWidth={true} type="password" value={data.password} onChange={handleChange('password')} /></Column>
                     <Column><TextField floatingLabelText="Repetir Contraseña" fullWidth={true} type="password" value={data.repeatedPasswod} onChange={handleChange('repeatedPasswod')} errorText={ data.repeatedPasswod !== data.password ? " Las Contraseñas no coinciden" : null } /></Column>
                 </Row>
+                <Row>
+                </Row>
+                
         </form>
     )}
 }

@@ -16,7 +16,7 @@ class Users extends React.Component{
             isAdmin: false,
             password: '',
             repeatedPasswod: '',
-            unidad:1 
+            unidad: 1
         }
 
     }
@@ -39,8 +39,8 @@ class Users extends React.Component{
         }
         
         let user = {
-            nombre: this.state.nombre,
-            apellido: this.state.apellido,
+            name: this.state.nombre,
+            lastname: this.state.apellido,
             role: this.state.role,
             email: this.state.email,
             password: this.state.password,
