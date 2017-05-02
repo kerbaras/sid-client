@@ -10,7 +10,7 @@ import { NewDialog } from '../Dialogs';
 import NewForm from './NewForm';
 
 const tools = ( unidad ) => [
- <IconButton key="edit"><IconEdit /></IconButton>
+ <Link to={`/unidades/${unidad.id}`}><IconButton key="edit"><IconEdit /></IconButton></Link>
 ];
 
 const tableEntry = (unidad, key) => (

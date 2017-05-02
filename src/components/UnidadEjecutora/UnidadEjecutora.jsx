@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route } from 'react-router-dom'
+import { Route, Switch} from 'react-router-dom'
 import MainPage from '../MainPage'
 import TiposUnidades from '../TiposUnidades';
 import List from './List';
 import {getResource, postResource} from '../../libs/api.js'
+import Show from './Show'
 
 class Unidades extends React.Component{
 
@@ -57,8 +58,11 @@ class Unidades extends React.Component{
     
     render = () => (
         <MainPage title="Unidades Ejecutoras">
-            <Route exact path={`/unidades/tipos`} component={TiposUnidades}/>
-            <Route exact path='/unidades' render={() => <unidades> { List(this.state.unidades, this.updateUnidades, this.handleChange, this.state) } </unidades>}/>
+            <Switch>
+                <Route path={`/unidades/tipos`} component={TiposUnidades}/>
+                <Route path='/unidades/:idunidad' component={Show}/>
+                <Route path='/unidades' render={() => <unidades> { List(this.state.unidades, this.updateUnidades, this.handleChange, this.state) } </unidades>}/>
+            </Switch>
         </MainPage>
     );
 }

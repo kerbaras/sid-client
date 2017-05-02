@@ -70,7 +70,7 @@ class DroguerosList extends React.Component {
             nombre: "",
             detalle: "",
             unidad: '',
-            responsable: ''
+            responsable: null 
         }
     }
 
@@ -96,10 +96,19 @@ class DroguerosList extends React.Component {
         postResource('drogueros/', { ...droguero }).then(this.getDrogueros())
     }
 
-    handleChange = property => event => {
-        let nextState = { ...this.state };
-        nextState[property] = event.target.value;
-        this.setState(nextState);
+    handleChange = (property, isSelect = null) => {
+        if(isSelect){
+            return (event, index, value) => {
+                let nextState = { ...this.state };
+                nextState[property] = value;
+                this.setState(nextState)
+            }
+        }
+        return event => {
+            let nextState = { ...this.state };
+            nextState[property] = event.target.value;
+            this.setState(nextState);
+        }
     }
 
     render = () => (
