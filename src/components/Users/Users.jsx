@@ -34,7 +34,7 @@ class Users extends React.Component{
 
 
     updateUsers = () =>{
-        if(this.state.repeatedPasswod !== this.state.password || this.state.password.replace(/\s/gi, '').length== 0){
+        if(this.state.repeatedPasswod !== this.state.password || this.state.password.replace(/\s/gi, '').length=== 0){
             return
         }
         

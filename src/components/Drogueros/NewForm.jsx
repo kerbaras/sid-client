@@ -1,10 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { getResource, postResource } from '../../libs/api'
+import { getResource } from '../../libs/api'
 
 const styles = {
     row: (color) => ({
@@ -29,34 +28,16 @@ const styles = {
     }
 };
 
-const mapped = (obj) => _.map(obj, (obj, key) => ({...obj, key}))
-
-const createItems = (unidades) => unidades.map((unidad) => <MenuItem key={unidad.id} value={unidad.id} primaryText={unidad.nombre} />)
-const createUserItems = (users) => users.map((user) => <MenuItem key={user.id} value={user.id} primaryText={user.apellido + ', ' + user.nombre} />)
-
-const UserSelect = ({data, handleChange, users, unidad}) => (
-    <SelectField
-        floatingLabelText="Responsable"
-        fullWidth={true}
-        value={data.responsable}
-        onChange={handleChange("responsable", true)}
-    >{ createUserItems(users.filter( user => user.unidad.id == unidad )) }</SelectField>
-)
-
-const createUserSelect = ({data, handleChange}, unidad, usuarios) => (unidad == null) ? null : <Column><UserSelect handleChange={handleChange} data={data} users={usuarios} unidad={unidad} /></Column>
-
-
 const Column = ({children}) => <column style={styles.col}>{children}</column>;
 const Row = ({children, color}) => <row style={styles.row(color)}>{children}</row>;
 
-const InputText = ({ label, value, onChange }) => <TextField floatingLabelText={ label } fullWidth={ true }  value={value} onChange={onChange} />;
 
 class NewForm extends React.Component{
 
     constructor(props){
         super(props)
         this.state = {
-            unidades: null,
+            unidades: [],
             usuarios: []
         }
     }
@@ -67,6 +48,7 @@ class NewForm extends React.Component{
     }
 
     componentWillReceiveProps(nextProps, nextContext){
+        this.setState({ unidad: nextProps.data.unidad, responsable: nextProps.data.responsable})
         this.getUnidades()
         this.getUsuarios()
     }
@@ -76,53 +58,33 @@ class NewForm extends React.Component{
 
     getUsuarios = () => 
         getResource('usuarios/').then(response => this.setState({ usuarios: response.data.data }))
-
-    getUsersFromUnity = (idUnidad) => {
-        let { unidades } = this.state
-        if(unidades === null){
-            return [];
-        }
-
-        let unidad = unidades.find( unidad => unidad.id === idUnidad )
-        if(!unidad || !unidad.usuarios){ 
-            return [];
-        }
-
-        return unidad.usuarios
-    }
-
-    createUnityItems = () => this.state.unidades.map( unidad => <MenuItem key={unidad.id} value={unidad.id} primaryText={unidad.nombre} /> )
-
-    makeUnitySelect = () => {
-        console.log(this.state.unidades)
-        if(this.state.unidades === null){
-            return null;
-        }
-        return (
-        <SelectField
-            floatingLabelText="Unidad Ejecutora"
-            fullWidth={true}
-            value={this.props.data.unidad}
-            onChange={this.props.handleChange('unidad', true)}
-        > { /*this.createUnityItems()*/ } </SelectField>
-    )}
-
-    makeUserSelect = () => null
     
-    render = () => {
-    let {data, handleChange } = this.props
-    return (
-    <form style={styles.form}>
-            <Row>
-                <Column><InputText label="Nombre" value={data.nombre} onChange={handleChange('nombre')} /></Column>
-                <Column><InputText label="Detalle" value={data.detalle} onChange={handleChange('detalle')} /></Column>
-            </Row>
-            <Row>
-                <Column>{ this.makeUnitySelect() }</Column>
-                { this.makeUserSelect() }
-            </Row>
-    </form>
-)};
+    makeUnityOptions = () => this.state.unidades.map( unidad => <MenuItem key={unidad.id} value={unidad.id} primaryText={`${unidad.nombre}`} />)
+
+    competentUsers = () => this.state.usuarios.filter( usuario => usuario.unidad.filter( unidad => unidad.id === this.state.unidad ).lenght !== -1)
+
+    makeUserOptions = () => this.competentUsers().map( usuario => <MenuItem key={usuario.id} value={usuario.id} primaryText={`${usuario.apellido}, ${usuario.nombre}`} />)
+
+    render = () => (
+        <form style={styles.form}>
+                <Row>
+                    <Column><TextField floatingLabelText="Nombre" fullWidth={true} value={this.props.data.nombre} onChange={this.props.handleChange('nombre')} /></Column>
+                    <Column><TextField floatingLabelText="Detalle" fullWidth={true}  value={this.props.data.detalle} onChange={this.props.handleChange('detalle')} /></Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <SelectField floatingLabelText="Unidad" fullWidth={true} value={this.props.data.unidad} onChange={this.props.handleChange("unidad", true)} >
+                            {this.makeUnityOptions()}
+                        </SelectField>
+                    </Column>
+                    <Column>
+                        <SelectField floatingLabelText="Responsable" fullWidth={true} value={this.props.data.responsable} onChange={this.props.handleChange("responsable", true)} >
+                            {this.makeUserOptions()}
+                        </SelectField>
+                    </Column>
+                </Row>
+        </form>
+    )
 
 }
 

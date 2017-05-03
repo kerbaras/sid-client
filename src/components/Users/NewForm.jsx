@@ -1,9 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
-import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Toggle from 'material-ui/Toggle'
 import { getResource } from '../../libs/api'
 
 const styles = {
@@ -33,12 +30,6 @@ const styles = {
 const Column = ({children}) => <column style={styles.col}>{children}</column>;
 const Row = ({children, color}) => <row style={styles.row(color)}>{children}</row>;
 
-
-const items = [
-  <MenuItem key={1} value={1} primaryText="Administrador" />,
-  <MenuItem key={2} value={2} primaryText="Responsable" />,
-  <MenuItem key={3} value={3} primaryText="Usuario" />,
-];
 
 class NewForm extends React.Component{
     

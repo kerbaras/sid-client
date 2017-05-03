@@ -3,14 +3,6 @@ import MainPage from '../MainPage';
 import SustanciasList from './List';
 import {postResource, getResource} from '../../libs/api'
 
-const cleanSustancia = {
-                formula:"",
-                nombre:"",
-                cas:"",
-                densidad: "",
-                tipoMedida:""
-}
-
 class Sustancias extends React.Component {
     constructor(props){
         super(props)

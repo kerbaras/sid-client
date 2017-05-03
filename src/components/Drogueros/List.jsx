@@ -10,31 +10,20 @@ import { Row } from '../Utilis';
 import NewForm from './NewForm';
 import { getResource, postResource } from '../../libs/api'
 
-const droguero = (id, unidadEjecutora, responsable, numero, imagen) => (
-    {
-        id,
-        unidadEjecutora,
-        responsable,
-        numero,
-        imagen
-    }
-);
-const user = (name, status, image) => ({name, status, image});
-
 const makeImage = image => image ? <CardMedia expandable={true}><img src={image} alt="" /></CardMedia> : null;
 const makeAvatar = image => image || <Avatar icon={<AccountIcon  />} />;
 
 const cardEntry = (droguero, key) => (
     <Card key={key} style={{ margin:'8px', maxWidth:'400px' }}>
     <CardHeader
-      title={ droguero.responsable.name }
-      subtitle={ droguero.responsable.status }
+      title={ `${droguero.responsable.apellido}, ${droguero.responsable.nombre}` }
+      subtitle={ droguero.responsable.email }
       avatar={ makeAvatar(droguero.responsable.image) }
       actAsExpander={Boolean(droguero.imagen)}
       showExpandableButton={Boolean(droguero.imagen)}
     />
     { makeImage(droguero.imagen) }
-    <CardTitle title={"Droguero " + droguero.numero} subtitle={droguero.unidadEjecutora}/>
+    <CardTitle title={droguero.nombre} subtitle={droguero.unidades.map( unidad => unidad.nombre ).join(', ')}/>
     <CardActions>
       <Link to={"/drogueros/" + droguero.id}><FlatButton label="Ver" /></Link>
     </CardActions>
@@ -69,7 +58,7 @@ class DroguerosList extends React.Component {
             drogueros:[],
             nombre: "",
             detalle: "",
-            unidad: '',
+            unidad: null,
             responsable: null 
         }
     }

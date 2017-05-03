@@ -1,6 +1,5 @@
 import React from 'react';
 import Snackbar from 'material-ui/Snackbar';
-import MainPage from '../MainPage';
 import List from './List';
 import { getResource, postResource } from '../../libs/api.js'
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
 
 const styles = {
     row: (color) => ({

@@ -1,30 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
 import { Card,  CardText } from 'material-ui/Card';
-import { List, ListItem } from 'material-ui/List';
 import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconEdit from 'material-ui/svg-icons/content/create';
-import IconDelete from 'material-ui/svg-icons/action/delete';
-import IconCheck from 'material-ui/svg-icons/navigation/check';
 import { NewDialog } from '../Dialogs';
 import NewForm from './NewForm';
-
-const MoreMenu = ({ user }) => (
-    <IconMenu
-      iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-      desktop={true}
-    >
-      <MenuItem primaryText="Eliminar" leftIcon={<IconDelete />} />
-      <Divider />
-      <MenuItem primaryText="Administrador" rightIcon={ user.status === "Administrador" ? <IconCheck /> : undefined} />
-      <MenuItem primaryText="Usuario" rightIcon={ user.status === "Usuario" ? <IconCheck /> : undefined} />
-    </IconMenu>
-);
 
 const tools = ( user ) => [
  <IconButton key="edit"><IconEdit /></IconButton>
