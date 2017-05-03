@@ -14,7 +14,7 @@ const makeImage = image => image ? <CardMedia expandable={true}><img src={image}
 const makeAvatar = image => image || <Avatar icon={<AccountIcon  />} />;
 
 const cardEntry = (droguero, key) => (
-    <Card key={key} style={{ margin:'8px', maxWidth:'400px' }}>
+    <Card key={droguero.id} style={{ margin:'8px', maxWidth:'400px' }}>
     <CardHeader
       title={ `${droguero.responsable.apellido}, ${droguero.responsable.nombre}` }
       subtitle={ droguero.responsable.email }
