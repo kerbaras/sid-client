@@ -1,16 +1,14 @@
 import React from 'react'
-import FloatingActionButton from 'material-ui/FloatingActionButton';;
+import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingDialog from './FloatingDialog';
 
 const NewDialog = ({ children, title, handleSubmit }) => (
   <FloatingDialog
     title={title}
-    btnContent={<ContentAdd/>}
-    secondary={true}
+    btnContent={title}
     handleSubmit={handleSubmit}
-    btnType={FloatingActionButton}
-    btnClass={"addButton"}
+    btnType={FlatButton}
   >
     { children }
   </FloatingDialog>

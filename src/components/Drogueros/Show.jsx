@@ -1,26 +1,56 @@
-import React from 'react';
-import { Card, CardActions, CardTitle } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import { SustanciasTable } from '../Sustancias';
-import { Row } from '../Utilis';
-import { getResource } from '../../libs/api'
+import React from 'react'
+import {Route, Link} from 'react-router-dom'
+import { Card, CardActions, CardTitle } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+import { SustanciasTable } from '../Sustancias'
+import { FlatDialog } from '../Dialogs'
+import { Row } from '../Utilis'
+import { getResource, postResource } from '../../libs/api'
 
 const entry = (division) => (
     <Card key={division.id} style={{ margin:'8px', maxWidth:'400px', display:'flex', flex:'1 0 auto' }}>
-    <CardTitle title={division.detalle} subtitle={"(" + division.nombre + ")"} />
-    <CardActions>
-      <FlatButton label="Ver" />
-    </CardActions>
-  </Card>
+        <CardTitle title={division.alias} subtitle={"(" + division.nombre + ")"} />
+        <CardActions>
+            <Link to={`/drogueros/${division.droguero}/${division.id}`}><FlatButton label="Ver" /></Link>
+        </CardActions>
+    </Card>
 ); 
 
 const makeDivisiones = (divisiones) => divisiones.map(division => entry(division));
 
-const Divisiones = ({ droguero }) => (
-    <Row>
-        { makeDivisiones(droguero.subdivisiones) }
-    </Row>
-);
+class Divisiones extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state={
+            division: null,
+            nombre: null,
+            detalle: null
+        }
+    }
+
+    componentWillReceiveProps(nextProps, nextContext){
+        this.getDivision(nextProps.division)
+    }
+
+
+
+    
+    render = () => (
+        <Row>
+            { makeDivisiones(this.state.division.subdivisiones) }
+            <Card key="new" style={{ margin:'8px', maxWidth:'400px', display:'flex', flex:'1 0 auto' }}>
+                <CardTitle title="Nueva Division" />
+                <CardActions>
+                    <TextField floatingLabelText="Nombre" value={this.state.nombre} onChange={this.handleChange('nombre')} />
+                    <TextField floatingLabelText="Detalle" value={this.state.detalle} onChange={this.handleChange('detalle')} />
+                    <FlatButton label="Agregar" onTouchTap={this.onSubmit} />
+                </CardActions>
+            </Card>
+        </Row>
+    )
+}
 
 const Sustancias = ({ droguero }) => (
     <sustancias>
@@ -29,13 +59,74 @@ const Sustancias = ({ droguero }) => (
     </sustancias>
 );
 
+class Division extends React.Component{
+    
+    constructor(props){
+        super(props)
+        let { drogueroId, divisionId } = props.match.params
+        this.state = {
+            id: divisionId || drogueroId,
+            division: null,
+            nuevoNombre: '',
+            nuevoDetalle: '',
+            nuevoAlias: ''
+        }
+        this.getDivision()
+    }
+
+    getDivision = () => 
+        getResource(`drogueros/divisiones/${this.state.id}`).then(response => this.setState({ division: response.data.data }))
+
+    componentWillReceiveProps(nextProps, nextContext){
+        let { drogueroId, divisionId } = nextProps.match.params
+        this.setState({ id: divisionId || drogueroId })
+        this.getDivision()
+    }
+
+    handleChange = property => event => {
+        let nextState = { ...this.state };
+        nextState[property] = event.target.value;
+        this.setState(nextState);
+    }
+
+    onSubmit = () => {
+        let subdivision = {
+            nombre: this.state.nuevoNombre,
+            detalle: this.state.nuevoDetalle,
+            alias: this.state.nuevoAlias,
+            division: this.state.id
+        }
+        postResource('drogueros/divisiones/', { ...subdivision }).then(() => this.getDivision())
+    }
+
+    makeDivisiones = () => (!this.state.division) ? null : this.state.division.subdivisiones.map(division => entry(division))
+
+    render = () => this.state.division === null ? null : (
+        <division style={{ width: '100%' }}>
+            <h2> { this.state.division.nombre } <small>({ this.state.division.detalle })</small> </h2>
+            <Row>
+                <Card key="new" style={{ margin:'8px', maxWidth:'400px', display:'flex', flex:'1 0 auto' }}>
+                    <CardTitle title="Nueva Division" />
+                    <CardActions>
+                        <TextField floatingLabelText="Nombre" value={this.state.nuevoNombre} onChange={this.handleChange('nuevoNombre')} />
+                        <TextField floatingLabelText="Alias" value={this.state.nuevoAlias} onChange={this.handleChange('nuevoAlias')} />
+                        <TextField floatingLabelText="Detalle" value={this.state.nuevoDetalle} onChange={this.handleChange('nuevoDetalle')} />
+                        <FlatButton label="Agregar" onTouchTap={()=>this.onSubmit()}/>
+                    </CardActions>
+                </Card>
+                { this.makeDivisiones() }
+            </Row>
+        </division>
+    )
+}
+
 
 class Droguero extends React.Component{
     
     constructor(props){
         super(props)
         this.state = {
-            droguero: null
+            droguero: null,
         }
     }
     
@@ -56,11 +147,12 @@ class Droguero extends React.Component{
 
     render = () => {
         if(this.state.droguero != null) { return (
-        <droguero>
-            <h1>{ this.state.droguero.nombre }</h1>
+        <droguero style={{ width: '100%' }}>
+            <h1>
+                { this.state.droguero.nombre }
+            </h1>
 
-            <Divisiones key="divisiones" droguero={this.state.droguero} />
-            <Sustancias key="sustancias"  droguero={this.state.droguero} />
+            <Route path={`/drogueros/:drogueroId/:divisionId?`} component={Division} /> 
         </droguero>
     )} else if (this.state.error === true){
         return (<h1>No tiene permisos para ver este droguero</h1>)

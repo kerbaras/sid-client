@@ -8,7 +8,7 @@ const Drogueros = ({ children }) => (
     <MainPage title="Drogueros">
         <Switch>
             <Route path="/drogueros/:drogueroId" component={Show}/>
-            <Route exact path="/drogueros" component={List}/>
+            <Route path="/drogueros" component={List}/>
         </Switch>
     </MainPage>
 );

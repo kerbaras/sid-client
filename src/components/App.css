@@ -20,3 +20,19 @@ app > side-menu {
 app.expand > side-menu {
     transform: translateX(0);
 }
+
+h1, h2, h3 {
+    font-weight: 100;
+}
+
+h1 {
+    font-size: '64px'
+}
+
+h2 {
+    font-size: '50px'
+}
+
+h3{
+    font-size: '45px';
+}

@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import { grey200 } from 'material-ui/styles/colors';
 
 const styles = {
@@ -12,14 +11,14 @@ const styles = {
     }
 };
 
-const Button = ({icon, onTouchTap, secondary}) => (
-    <FloatingActionButton
+const Button = ({children, onTouchTap, secondary, BtnType, className}) => (
+    <BtnType
         secondary={secondary}
-        className="addButton"
+        className={className}
         onTouchTap={onTouchTap}
     >
-      { icon }
-    </FloatingActionButton>
+      { children }
+    </BtnType>
 );
 
 export default class FloatingDialog extends React.Component {
@@ -55,7 +54,9 @@ export default class FloatingDialog extends React.Component {
     ];
     return (
       <div>
-        <Button secondary={this.props.secondary} icon={ this.props.icon } onTouchTap={this.handleOpen} />
+        <Button secondary={this.props.secondary} onTouchTap={this.handleOpen} BtnType={this.props.btnType} className={this.props.btnClass}>
+          { this.props.btnContent }
+        </Button>
         <Dialog
           title={this.props.title}
           titleStyle={styles.dialog.title}
