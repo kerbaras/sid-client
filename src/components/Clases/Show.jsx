@@ -9,9 +9,9 @@ class ShowComponent extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            unidad: null,
-            usuarios: [],
-            usuario: null
+            clase: null,
+            incompatibilidades: [],
+            incompatibilidad: null
         }
     }
 
@@ -26,21 +26,21 @@ class ShowComponent extends React.Component {
     }
 
     getUnidad = (id) =>
-        getResource(`unidades/${id}`).then(response => this.setState({ unidad: response.data.data }))
+        getResource(`sustancias/clases/${id}`).then(response => this.setState({ clase: response.data.data }))
 
     getUsuarios = () => 
-        getResource(`usuarios/`).then(response => this.setState({ usuarios: response.data.data }))
+        getResource(`sustancias/clases/`).then(response => this.setState({ incompatibilidades: response.data.data }))
     
-    handleChange = (event, index, value) => this.setState({usuario: value});
+    handleChange = (event, index, value) => this.setState({incompatibilidad: value});
 
-    listUsers = () => this.state.unidad.usuarios.map( usuario => <li>{usuario.apellido}, {usuario.nombre}</li> )
+    listUsers = () => this.state.clase.incompatibilidades.map( clase => <li>{clase.nombre}, {clase.detalle}</li> )
 
-    competentUsers = () => this.state.usuarios.filter( usuario => this.state.unidad.usuarios.filter(user => user.id === usuario.id).length === 0)
+    competentUsers = () => this.state.incompatibilidades.filter( incompatibilidad => this.state.clase.incompatibilidades.filter(clase => clase.id === incompatibilidad.id).length === 0)
 
-    makeOptions = () => this.competentUsers().map( usuario => <MenuItem key={usuario.id} value={usuario.id} primaryText={`${usuario.apellido}, ${usuario.nombre}`} />)
+    makeOptions = () => this.competentUsers().map( clase => <MenuItem key={clase.id} value={clase.id} primaryText={`${clase.nombre}, ${clase.detalle}`} />)
 
     submitUser = () => 
-        postResource('unidades/integrantes/', { unidad: this.state.unidad.id, usuario: this.state.usuario})
+        postResource('sustancias/incompatibilidades/', { clase: this.state.unidad.id, incompatibilidad: this.state.usuario})
         .then(() => { 
             this.getUsuarios();
             this.getUnidad(this.state.unidad.id);
