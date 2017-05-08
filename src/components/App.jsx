@@ -7,6 +7,9 @@ import Users from './Users'
 import Sustancias from './Sustancias'
 import UnidadEjecutora from './UnidadEjecutora'
 import Drogueros from './Drogueros'
+import Clases from './Clases'
+import Entidades from './EntidadesReguladoras'
+import Motivos from './MotivosMovimiento'
 import './App.css'
 
 
@@ -33,6 +36,9 @@ class App extends React.Component {
                 <Route path="/usuarios" component={Users}/>
                 <Route path="/unidades" component={UnidadEjecutora}/>
                 <Route path="/drogueros" component={Drogueros}/>
+                <Route path="/clases" component={Clases}/>
+                <Route path="/entidades" component={Entidades}/>
+                <Route path="/motivos" component={Motivos}/>
             </div>
         </app>
     );

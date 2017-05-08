@@ -59,7 +59,6 @@ class NewForm extends React.Component{
         <form style={styles.form} >
                 <Row>
                     <Column><TextField floatingLabelText="Nombre" fullWidth={true} value={data.nombre} onChange={handleChange('nombre')} /></Column>
-                    { (this.state.tipos === [] ) ? null : <Column><SelectField floatingLabelText="Tipo" fullWidth={true} value={data.tipo} onChange={handleChange('tipo', true)}> { this.renderOptions()} </SelectField></Column>}
                 </Row>
                 <Row>
                     <Column><TextField floatingLabelText="Detalle" fullWidth={true} value={data.detalle} onChange={handleChange('detalle')} /></Column>

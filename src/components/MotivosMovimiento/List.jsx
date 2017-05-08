@@ -17,7 +17,6 @@ const tableEntry = (unidad, key) => (
     <TableRow key={key}>
         <TableRowColumn>{unidad.nombre }</TableRowColumn>
         <TableRowColumn>{unidad.detalle}</TableRowColumn>
-        <TableRowColumn>{unidad.tipo.nombre}</TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(unidad)}</TableRowColumn>
     </TableRow>
 );
@@ -32,7 +31,6 @@ const UnidadTable = ({unidades}) => (
                             <TableRow>
                                 <TableHeaderColumn>Nombre</TableHeaderColumn>
                                 <TableHeaderColumn>Detalle</TableHeaderColumn>
-                                <TableHeaderColumn>Tipo</TableHeaderColumn>
                                 <TableHeaderColumn>Opciones</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
@@ -51,7 +49,6 @@ const AddButton = ({ handleSubmit, handleChange, data}) => (
 );
 
 const UserList = (unidades, handlerNew, handleChange, state) => [
-    <section key="tipos"><Link to='/unidades/tipos'> <FlatButton label="Tipos de Unidades" primary={true} /> </Link></section>,
     <UnidadTable key="table" unidades={unidades}/>,
     <AddButton key="new" handleSubmit={handlerNew} handleChange={handleChange} data={state}/>
 ];

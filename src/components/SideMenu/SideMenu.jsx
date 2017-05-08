@@ -19,6 +19,9 @@ const AdminMenu = () => (
         <Link to="/sustancias"><ListItem primaryText="Sustancias" leftIcon={<WarningIcon />} /></Link>
         <Link to="/drogueros"><ListItem primaryText="Drogueros" leftIcon={<ContentInbox />} /></Link>
         <Link to="/unidades"><ListItem primaryText="Unidades Ejecutoras" leftIcon={<ActionGrade />} /></Link>
+        <Link to="/clases"><ListItem primaryText="Clases" leftIcon={<ActionGrade />} /></Link>
+        <Link to="/entidades"><ListItem primaryText="Entidades Reguladoras" leftIcon={<ActionGrade />} /></Link>
+        <Link to="/motivos"><ListItem primaryText="Motivos de Movimientos" leftIcon={<ActionGrade />} /></Link>
     </List>
 )
 const UserMenu = () => (

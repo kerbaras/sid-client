@@ -14,7 +14,6 @@ class Unidades extends React.Component{
             unidades: [],
             nombre: '',
             detalle: '',
-            tipo: 1
         }
 
     }
@@ -28,17 +27,16 @@ class Unidades extends React.Component{
     }
 
     getUnidades = () => 
-        getResource('unidades/').then(response => this.setState({ unidades: response.data.data }))
+        getResource('sustancias/clases/').then(response => this.setState({ unidades: response.data.data }))
 
 
     updateUnidades = () =>{
         let unidad = {
             nombre: this.state.nombre,
             detalle: this.state.detalle,
-            tipo: this.state.tipo
         }
        
-       postResource('unidades/', { ...unidad }).then(()=>this.getUnidades())
+       postResource('sustancias/clases/', { ...unidad }).then(()=>this.getUnidades())
     }
 
     handleChange = (property, isSelect = null) => {
@@ -57,11 +55,10 @@ class Unidades extends React.Component{
     }
     
     render = () => (
-        <MainPage title="Unidades Ejecutoras">
+        <MainPage title="Clases de Sustancias">
             <Switch>
-                <Route path={`/unidades/tipos`} component={TiposUnidades}/>
-                <Route path='/unidades/:idunidad' component={Show}/>
-                <Route path='/unidades' render={() => <unidades> { List(this.state.unidades, this.updateUnidades, this.handleChange, this.state) } </unidades>}/>
+                <Route path='/clases/:idunidad' component={Show}/>
+                <Route path='/clases' render={() => <clases> { List(this.state.unidades, this.updateUnidades, this.handleChange, this.state) } </clases>}/>
             </Switch>
         </MainPage>
     );
