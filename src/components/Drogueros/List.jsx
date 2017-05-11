@@ -22,10 +22,11 @@ const cardEntry = (droguero, key) => (
       actAsExpander={true}
       showExpandableButton={Boolean(droguero.imagen)}
     />
-    { makeImage("http://placehold.it/10x100") }
+    { makeImage("http://placehold.it/100x10") }
     <CardTitle title={droguero.nombre} subtitle={droguero.unidades.map( unidad => unidad.nombre ).join(', ')}/>
     <CardActions>
-      <Link to={"/drogueros/" + droguero.id}><FlatButton label="Ver" /></Link>
+      <Link to={"/drogueros/" + droguero.id}><FlatButton label="Ingresar" /></Link>
+      <Link to={`/drogueros/${droguero.id}/usuarios`}><FlatButton label="Usuarios" /></Link>
     </CardActions>
   </Card>
 );

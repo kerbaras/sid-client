@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Link} from 'react-router-dom'
+import {Route, Link, Switch} from 'react-router-dom'
 import { Card, CardActions, CardTitle } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
@@ -7,12 +7,13 @@ import { SustanciasTable } from '../Sustancias'
 import { FlatDialog } from '../Dialogs'
 import { Row } from '../Utilis'
 import { getResource, postResource } from '../../libs/api'
+import UserList from './UserList'
 
 const entry = (division) => (
     <Card key={division.id} style={{ margin:'8px', maxWidth:'400px', display:'flex', flex:'1 0 auto' }}>
         <CardTitle title={division.alias} subtitle={"(" + division.nombre + ")"} />
         <CardActions>
-            <Link to={`/drogueros/${division.droguero}/${division.id}`}><FlatButton label="Ver" /></Link>
+            <Link to={`/drogueros/${division.droguero}/${division.id}`}><FlatButton label="Ingresar" /></Link>
         </CardActions>
     </Card>
 ); 
@@ -52,10 +53,10 @@ class Divisiones extends React.Component{
     )
 }
 
-const Sustancias = ({ droguero }) => (
+const Sustancias = ({ sustancias }) => (
     <sustancias>
         <h2>Sustancias</h2>
-        <SustanciasTable sustancias={ droguero.drogas } tools={() => null} />
+        <SustanciasTable sustancias={ [] } tools={() => null} />
     </sustancias>
 );
 
@@ -101,9 +102,12 @@ class Division extends React.Component{
 
     makeDivisiones = () => (!this.state.division) ? null : this.state.division.subdivisiones.map(division => entry(division))
 
+    createPath = () => this.state.division.path.map( div => <Link key={div.id} to={`/drogueros/${div.droguero}/${div.id}`}>{ div.nombre } / </Link> )
+
     render = () => this.state.division === null ? null : (
         <division style={{ width: '100%' }}>
-            <h2> { this.state.division.nombre } <small>({ this.state.division.detalle })</small> </h2>
+            <h3> { this.createPath() } </h3>
+            <h2> Subdivisiones </h2>
             <Row>
                 <Card key="new" style={{ margin:'8px', maxWidth:'400px', display:'flex', flex:'1 0 auto' }}>
                     <CardTitle title="Nueva Division" />
@@ -116,6 +120,7 @@ class Division extends React.Component{
                 </Card>
                 { this.makeDivisiones() }
             </Row>
+            <Sustancias/>
         </division>
     )
 }
@@ -152,7 +157,10 @@ class Droguero extends React.Component{
                 { this.state.droguero.nombre }
             </h1>
 
-            <Route path={`/drogueros/:drogueroId/:divisionId?`} component={Division} /> 
+            <Switch>
+                <Route path={`/drogueros/:drogueroId/usuarios`} component={UserList} />
+                <Route path={`/drogueros/:drogueroId/:divisionId?`} component={Division} /> 
+            </Switch>
         </droguero>
     )} else if (this.state.error === true){
         return (<h1>No tiene permisos para ver este droguero</h1>)
