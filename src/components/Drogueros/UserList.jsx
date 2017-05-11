@@ -6,6 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import IconEdit from 'material-ui/svg-icons/content/create';
 import { NewDialog } from '../Dialogs';
 import NewForm from './NewForm';
+import { getResource, postResource } from '../../libs/api'
 
 const tools = ( user ) => [
  <IconButton key="edit"><IconEdit /></IconButton>
@@ -50,11 +51,25 @@ const AddButton = ({ handleSubmit, handleChange, data}) => (
     </NewDialog>
 );
 
-const UserList = ({users, handlerNew, handleChange, state}) => (
-    <users>
-        <UserTable key="table" users={users}/>
-        <AddButton key="new" handleSubmit={handlerNew} handleChange={handleChange} data={state}/>
-    </users>
-);
+ class UserList extends React.Component {
+
+     constructor(props){
+         super(props)
+         this.state = {
+             accesos: [],
+             userId: null
+         }
+     }
+
+     getAccesos = () => 
+        getResource(`drogueros/${this.state.id}/usuarios`).then(response => this.setState({ accesos: response.data.data }))
+     
+    render  = ({users, handlerNew, handleChange, state}) => (
+        <users>
+            <UserTable key="table" users={this.state.accesos}/>
+            <AddButton key="new" handleSubmit={this.handlerNew} handleChange={this.handleChange} data={this.state}/>
+        </users>
+    )
+ }
 
 export default UserList;
