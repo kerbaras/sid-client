@@ -146,7 +146,7 @@ class Droguero extends React.Component{
     getDroguero = (id) =>
         getResource(`drogueros/${id}`)
             .then(response => this.setState({ droguero: response.data.data }))
-            .catch( response => {
+            .catch(response => {
                 this.setState({ droguero: null, error: true })
             })
 

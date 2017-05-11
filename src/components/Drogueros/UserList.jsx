@@ -14,10 +14,10 @@ const tools = ( user ) => [
 
 const tableEntry = (user, key) => (
     <TableRow key={key}>
-        <TableRowColumn>{ user.apellido + ', ' + user.nombre }</TableRowColumn>
-        <TableRowColumn>{user.username}</TableRowColumn>
-        <TableRowColumn>{user.email}</TableRowColumn>
-        <TableRowColumn>{(new Date(user.fecha.date)).toLocaleDateString('es')}</TableRowColumn>
+        <TableRowColumn></TableRowColumn>
+        <TableRowColumn></TableRowColumn>
+        <TableRowColumn></TableRowColumn>
+        <TableRowColumn></TableRowColumn>
         <TableRowColumn style={{ textAlign:'right' }}>{tools(user)}</TableRowColumn>
     </TableRow>
 );
@@ -57,15 +57,26 @@ const AddButton = ({ handleSubmit, handleChange, data}) => (
          super(props)
          this.state = {
              accesos: [],
-             userId: null
+             userId: null,
+             id: 0
          }
      }
 
+     componentDidMount(){
+        this.getAccesos()
+    }
+
+    componentWillReceiveProps(nextProps, nextContext){
+        this.setState({ id: nextProps.match.params.drogueroId})
+        this.getAccesos()
+    }
+
      getAccesos = () => 
-        getResource(`drogueros/${this.state.id}/usuarios`).then(response => this.setState({ accesos: response.data.data }))
+        getResource(`drogueros/${this.state.id}/usuarios/`).then(response => this.setState({ accesos: response.data.data }))
      
     render  = ({users, handlerNew, handleChange, state}) => (
         <users>
+            <h1> Usuarios </h1>
             <UserTable key="table" users={this.state.accesos}/>
             <AddButton key="new" handleSubmit={this.handlerNew} handleChange={this.handleChange} data={this.state}/>
         </users>
